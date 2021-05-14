@@ -1,12 +1,11 @@
 import User from './user.model.js';
+import { USERS } from '../../db/database.js';
 
-const users = [];
-
-const getAll = async () => users;
-const getById = async (id) => users.find((user) => user.id === id);
+const getAll = async () => USERS;
+const getById = async (id) => USERS.find((user) => user.id === id);
 const createUser = async (user) => {
   const newUser = new User({ ...user });
-  users.push(newUser);
+  USERS.push(newUser);
   return newUser;
 };
 const updateUser = async (id, updatedUser) => {
@@ -20,9 +19,9 @@ const updateUser = async (id, updatedUser) => {
   return user;
 };
 const deleteUser = async (id) => {
-  const userIndex = users.findIndex((user) => user.id === id);
+  const userIndex = USERS.findIndex((user) => user.id === id);
 
-  users.splice(userIndex, 1);
+  USERS.splice(userIndex, 1);
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };
