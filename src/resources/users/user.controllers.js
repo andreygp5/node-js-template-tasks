@@ -22,8 +22,8 @@ const createUser = async (req, res) => {
   const user = req.body;
 
   try {
-    await usersService.createUser(user);
-    res.status(201).send('The user has been created');
+    const createdUser = await usersService.createUser(user);
+    res.status(201).json(User.toResponse(createdUser));
   } catch {
     res.status(400).send('Bad request');
   }
@@ -31,11 +31,11 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { userId } = req.params;
-  const updatedUser = req.body;
+  const user = req.body;
 
   try {
-    await usersService.updateUser(userId, updatedUser);
-    res.status(201).send('The user has been created');
+    const updatedUser = await usersService.updateUser(userId, user);
+    res.status(200).json(User.toResponse(updatedUser));
   } catch {
     res.status(400).send('Bad request');
   }
