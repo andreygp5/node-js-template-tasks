@@ -1,4 +1,4 @@
-const User = require('./user.model');
+import User from './user.model.js';
 
 const users = [];
 
@@ -25,4 +25,4 @@ const deleteUser = async (id) => {
   users.splice(userIndex, 1);
 };
 
-module.exports = { getAll, getById, createUser, updateUser, deleteUser };
+export { getAll, getById, createUser, updateUser, deleteUser };

@@ -1,5 +1,5 @@
-const User = require('./user.model');
-const usersService = require('./user.service');
+import User from './user.model.js';
+import * as usersService from './user.service.js';
 
 const getUsers = async (req, res) => {
   const users = await usersService.getAll();
@@ -52,4 +52,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };
+export { getUsers, getUserById, createUser, updateUser, deleteUser };
