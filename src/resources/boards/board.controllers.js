@@ -10,7 +10,11 @@ const getBoardById = async (req, res) => {
 
   try {
     const desiredBoard = await boardsService.getById(boardId);
-    res.status(200).json(desiredBoard);
+    if (desiredBoard) {
+      res.status(200).json(desiredBoard);
+    } else {
+      res.status(404).json('Board not found');
+    }
   } catch {
     res.status(404).send('Board not found');
   }
