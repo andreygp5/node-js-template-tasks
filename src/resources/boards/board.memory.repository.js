@@ -4,6 +4,7 @@ import Board from './board.model.js';
 import { BOARDS } from '../../db/database.js';
 
 import * as columnsService from '../columns/column.service.js';
+import { deleteTasksOnBoardDelete } from '../tasks/task.service.js';
 
 const getAll = async () => BOARDS;
 const getById = async (id) => BOARDS.find((board) => board.id === id);
@@ -31,6 +32,7 @@ const deleteBoard = async (id) => {
   const boardIndex = BOARDS.findIndex((board) => board.id === id);
 
   BOARDS.splice(boardIndex, 1);
+  deleteTasksOnBoardDelete(id);
 };
 
 export { getAll, getById, createBoard, updateBoard, deleteBoard };
