@@ -1,11 +1,12 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+import { Router } from 'express';
+import * as controllers from './user.controllers.js';
 
-router.route('/').get(async (req, res) => {
-  const users = await usersService.getAll();
-  // map user fields to exclude secret fields like "password"
-  res.json(users.map(User.toResponse));
-});
+const router = new Router();
 
-module.exports = router;
+router.get('/', controllers.getUsers);
+router.get('/:userId', controllers.getUserById);
+router.post('/', controllers.createUser);
+router.put('/:userId', controllers.updateUser);
+router.delete('/:userId', controllers.deleteUser);
+
+export default router;
