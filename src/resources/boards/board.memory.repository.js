@@ -6,8 +6,32 @@ import { BOARDS } from '../../db/database.js';
 import * as columnsService from '../columns/column.service.js';
 import { deleteTasksOnBoardDelete } from '../tasks/task.service.js';
 
+/**
+ * Get all boards from db
+ *
+ * @returns {Promise<Array<import('./board.model.js').BoardModel>>}
+ * Boards array
+ */
 const getAll = async () => BOARDS;
+
+/**
+ * Get board by id from db
+ * If board with this id doesn't exist - returns undefined
+ *
+ * @param {number} id Desired board id
+ *
+ * @returns {Promise<import('./board.model.js').BoardModel|undefined>} Board or undefined
+ */
 const getById = async (id) => BOARDS.find((board) => board.id === id);
+
+/**
+ * Creates board in db with info from request
+ *
+ * @param {{columns: Array<import('../columns/column.model.js').ColumnModel>, title: string}} board
+ * Board data from request
+ *
+ * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
+ */
 const createBoard = async (board) => {
   const { columns, title } = board;
   const newBoard = new Board({ title });
@@ -19,6 +43,16 @@ const createBoard = async (board) => {
   BOARDS.push(newBoard);
   return newBoard;
 };
+
+/**
+ * Updates board in db with info from request
+ *
+ * @param {number} id
+ * @param {{title: string, columns: Array<import('../columns/column.model.js').ColumnModel>}} updatedBoard
+ * Updated board data from request
+ *
+ * @returns {Promise<import('./board.model.js').BoardModel>} Updated board instance
+ */
 const updateBoard = async (id, updatedBoard) => {
   const board = await getById(id);
   const { title, columns: updatedColumns } = updatedBoard;
@@ -28,6 +62,14 @@ const updateBoard = async (id, updatedBoard) => {
 
   return board;
 };
+
+/**
+ * Delete board with specified id from db
+ *
+ * @param {number} id Desired board id
+ *
+ * @returns {Promise<void>}
+ */
 const deleteBoard = async (id) => {
   const boardIndex = BOARDS.findIndex((board) => board.id === id);
 
