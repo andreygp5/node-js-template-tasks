@@ -6,7 +6,7 @@ import * as columnsRepo from './column.memory.repository.js';
  * @param {import('./column.model.js').ColumnModel} column
  * Column info
  *
- * @returns {import('./column.model.js').ColumnModel}
+ * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
 const createColumn = (column) => columnsRepo.createColumn(column);
@@ -18,7 +18,7 @@ const createColumn = (column) => columnsRepo.createColumn(column);
  * @param {import('./column.model.js').ColumnModel} column
  * Column instance
  *
- * @returns {import('./column.model.js').ColumnModel}
+ * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Updated column instance
  */
 const updateFields = (newFields, column) =>
@@ -32,7 +32,7 @@ const updateFields = (newFields, column) =>
  * @param {import('../boards/board.model.js').BoardModel} board
  * Board instance, where the column is being found
  *
- * @returns {import('./column.model.js').ColumnModel | undefined}
+ * @returns {Promise<import('./column.model.js').ColumnModel | undefined>}
  * Column or undefined
  */
 const getColumnFromBoardById = (columnId, board) =>
@@ -45,6 +45,8 @@ const getColumnFromBoardById = (columnId, board) =>
  * Array of columns, which will be updated
  * @param {import('../boards/board.model.js').BoardModel} board
  * Board instance on which columns will be updated
+ *
+ * @returns {Promise<void>}
  */
 const updateColumnsInBoard = (updatedColumns, board) =>
   columnsRepo.updateColumnsInBoard(updatedColumns, board);

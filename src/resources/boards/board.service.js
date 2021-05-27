@@ -3,7 +3,7 @@ import * as boardsRepo from './board.memory.repository.js';
 /**
  * Get all boards from db
  *
- * @returns {Array<import('./board.model.js').BoardModel>}
+ * @returns {Array<Promise<import('./board.model.js').BoardModel>>}
  * Boards array
  */
 const getAll = () => boardsRepo.getAll();
@@ -14,7 +14,7 @@ const getAll = () => boardsRepo.getAll();
  *
  * @param {number} id Desired board id
  *
- * @returns {import('./board.model.js').BoardModel|undefined} Board or undefined
+ * @returns {Promise<import('./board.model.js').BoardModel|undefined>} Board or undefined
  */
 const getById = (id) => boardsRepo.getById(id);
 
@@ -24,7 +24,7 @@ const getById = (id) => boardsRepo.getById(id);
  * @param {{columns: Array<import('../columns/column.model.js').ColumnModel>, title: string}} board
  * Board data from request
  *
- * @returns {import('./board.model.js').BoardModel} Created board instance
+ * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
  */
 const createBoard = (board) => boardsRepo.createBoard(board);
 
@@ -35,7 +35,7 @@ const createBoard = (board) => boardsRepo.createBoard(board);
  * @param {{title: string, columns: Array<import('../columns/column.model.js').ColumnModel>}} updatedBoard
  * Updated board data from request
  *
- * @returns {import('./board.model.js').BoardModel} Updated board instance
+ * @returns {Promise<import('./board.model.js').BoardModel>} Updated board instance
  */
 const updateBoard = (id, updatedBoard) =>
   boardsRepo.updateBoard(id, updatedBoard);
@@ -44,6 +44,8 @@ const updateBoard = (id, updatedBoard) =>
  * Delete board with specified id from db
  *
  * @param {number} id Desired board id
+ *
+ * @returns {Promise<void>}
  */
 const deleteBoard = (id) => boardsRepo.deleteBoard(id);
 
