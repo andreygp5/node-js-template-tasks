@@ -1,10 +1,12 @@
 import { v1 as uuidv1 } from 'uuid';
 
+import { IColumn } from './column';
+
 /**
  * ColumnModel
  *
  * @typedef {Object} ColumnModel
- * @property {number} id Column unique id
+ * @property {string} id Column unique id
  * @property {string} title Column title
  * @property {number} order Column order
  */
@@ -12,7 +14,13 @@ import { v1 as uuidv1 } from 'uuid';
 /**
  * Column model class
  */
-export default class Column {
+export default class Column implements IColumn {
+  id: string;
+
+  title: string;
+
+  order: number;
+
   /**
    * @param {ColumnModel} [column={}] Column object
    */

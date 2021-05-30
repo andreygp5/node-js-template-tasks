@@ -1,4 +1,7 @@
-import * as columnsRepo from './column.memory.repository.js';
+import { IBoard } from '../boards/board';
+import { IColumn } from './column';
+
+import * as columnsRepo from './column.memory.repository';
 
 /**
  * Creates column
@@ -9,7 +12,8 @@ import * as columnsRepo from './column.memory.repository.js';
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
-const createColumn = (column) => columnsRepo.createColumn(column);
+const createColumn = (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
+  columnsRepo.createColumn(column);
 
 /**
  * Updates column
@@ -21,8 +25,10 @@ const createColumn = (column) => columnsRepo.createColumn(column);
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Updated column instance
  */
-const updateFields = (newFields, column) =>
-  columnsRepo.updateFields(newFields, column);
+const updateFields = (
+  newFields: Omit<IColumn, 'id'>,
+  column: IColumn
+): Promise<IColumn> => columnsRepo.updateFields(newFields, column);
 
 /**
  * Get column by id from db
@@ -35,7 +41,10 @@ const updateFields = (newFields, column) =>
  * @returns {Promise<import('./column.model.js').ColumnModel | undefined>}
  * Column or undefined
  */
-const getColumnFromBoardById = (columnId, board) =>
+const getColumnFromBoardById = (
+  columnId: string,
+  board: IBoard
+): Promise<IColumn | undefined> =>
   columnsRepo.getColumnFromBoardById(columnId, board);
 
 /**
@@ -48,8 +57,10 @@ const getColumnFromBoardById = (columnId, board) =>
  *
  * @returns {Promise<void>}
  */
-const updateColumnsInBoard = (updatedColumns, board) =>
-  columnsRepo.updateColumnsInBoard(updatedColumns, board);
+const updateColumnsInBoard = (
+  updatedColumns: IColumn[],
+  board: IBoard
+): Promise<void> => columnsRepo.updateColumnsInBoard(updatedColumns, board);
 
 export {
   createColumn,

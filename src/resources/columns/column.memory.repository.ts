@@ -1,4 +1,7 @@
-import Column from './column.model.js';
+import { IBoard } from '../boards/board';
+import { IColumn } from './column';
+
+import Column from './column.model';
 
 /**
  * Creates column
@@ -9,7 +12,8 @@ import Column from './column.model.js';
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
-const createColumn = async (column) => new Column({ ...column });
+const createColumn = async (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
+  new Column({ ...column });
 
 /**
  * Updates column
@@ -21,7 +25,10 @@ const createColumn = async (column) => new Column({ ...column });
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Updated column instance
  */
-const updateFields = async (newFields, column) => {
+const updateFields = async (
+  newFields: Omit<IColumn, 'id'>,
+  column: IColumn
+): Promise<IColumn> => {
   const { title, order } = newFields;
   const newColumn = column;
 
@@ -42,7 +49,10 @@ const updateFields = async (newFields, column) => {
  * @returns {Promise<import('./column.model.js').ColumnModel | undefined>}
  * Column or undefined
  */
-const getColumnFromBoardById = async (columnId, board) =>
+const getColumnFromBoardById = async (
+  columnId: string,
+  board: IBoard
+): Promise<IColumn | undefined> =>
   board.columns.find((column) => column.id === columnId);
 
 /**
@@ -55,7 +65,10 @@ const getColumnFromBoardById = async (columnId, board) =>
  *
  * @returns {Promise<void>}
  */
-const updateColumnsInBoard = async (updatedColumns, board) => {
+const updateColumnsInBoard = async (
+  updatedColumns: IColumn[],
+  board: IBoard
+): Promise<void> => {
   await updatedColumns.forEach(async (updatedColumn) => {
     const columnInBoard = await getColumnFromBoardById(updatedColumn.id, board);
     if (columnInBoard) {
