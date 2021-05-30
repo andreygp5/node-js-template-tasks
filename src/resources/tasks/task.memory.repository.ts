@@ -1,7 +1,8 @@
 /* eslint-disable no-shadow */
-import Task from './task.model.js';
+import Task from './task.model';
 
-import { TASKS } from '../../db/database.js';
+import { TASKS } from '../../db/database';
+import { ITask } from './task';
 
 /**
  * Get all tasks from board
@@ -10,7 +11,7 @@ import { TASKS } from '../../db/database.js';
  *
  * @returns {Promise<Array<import('./task.model.js').TaskModel>>} Tasks array
  */
-const getAllFromBoard = async (boardId) =>
+const getAllFromBoard = async (boardId: string): Promise<ITask[]> =>
   TASKS.filter((task) => task.boardId === boardId);
 
 /**
@@ -22,7 +23,10 @@ const getAllFromBoard = async (boardId) =>
  *
  * @returns {Promise<import('./task.model.js').TaskModel | undefined>} Task instance or undefined
  */
-const getByIdFromBoard = async (boardId, taskId) =>
+const getByIdFromBoard = async (
+  boardId: string,
+  taskId: string
+): Promise<ITask | undefined> =>
   TASKS.find((task) => task.boardId === boardId && task.id === taskId);
 
 /**
@@ -33,7 +37,10 @@ const getByIdFromBoard = async (boardId, taskId) =>
  *
  * @returns {Promise<import('./task.model.js').TaskModel>} Created task instance
  */
-const createTaskOnBoard = async (boardId, task) => {
+const createTaskOnBoard = async (
+  boardId: string,
+  task: ITask
+): Promise<ITask> => {
   const newTask = new Task({ ...task, boardId });
 
   TASKS.push(newTask);
@@ -49,8 +56,13 @@ const createTaskOnBoard = async (boardId, task) => {
  *
  * @returns {Promise<import('./task.model.js').TaskModel>} Updated task instance
  */
-const updateTaskOnBoard = async (boardId, taskId, updatedTask) => {
+const updateTaskOnBoard = async (
+  boardId: string,
+  taskId: string,
+  updatedTask: Omit<ITask, 'id'>
+): Promise<ITask> => {
   const task = await getByIdFromBoard(boardId, taskId);
+  if (!task) throw new Error('Id is not valid');
 
   const {
     title,
@@ -78,7 +90,10 @@ const updateTaskOnBoard = async (boardId, taskId, updatedTask) => {
  *
  * @returns {Promise<void>}
  */
-const deleteTaskFromBoard = async (boardId, taskId) => {
+const deleteTaskFromBoard = async (
+  boardId: string,
+  taskId: string
+): Promise<void> => {
   const taskIndex = TASKS.findIndex(
     (task) => task.boardId === boardId && task.id === taskId
   );
@@ -93,7 +108,7 @@ const deleteTaskFromBoard = async (boardId, taskId) => {
  *
  * @returns {Promise<void>}
  */
-const updateTasksWhereUserAssignee = (userId) => {
+const updateTasksWhereUserAssignee = (userId: string): void => {
   TASKS.forEach((task) => {
     const taskRef = task;
     if (taskRef.userId === userId) taskRef.userId = null;
@@ -107,8 +122,8 @@ const updateTasksWhereUserAssignee = (userId) => {
  *
  * @returns {Promise<void>}
  */
-const deleteTasksOnBoardDelete = (boardId) => {
-  const tasksIdsToDelete = [];
+const deleteTasksOnBoardDelete = (boardId: string): void => {
+  const tasksIdsToDelete: string[] = [];
   TASKS.forEach((task) => {
     if (task.boardId === boardId) tasksIdsToDelete.push(task.id);
   });

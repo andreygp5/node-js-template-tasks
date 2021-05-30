@@ -4,7 +4,7 @@ import Board from './board.model';
 import { BOARDS } from '../../db/database';
 
 import * as columnsService from '../columns/column.service';
-// import { deleteTasksOnBoardDelete } from '../tasks/task.service';
+import { deleteTasksOnBoardDelete } from '../tasks/task.service';
 import { IBoard } from './board';
 
 /**
@@ -81,7 +81,7 @@ const deleteBoard = async (id: string): Promise<void> => {
   const boardIndex = BOARDS.findIndex((board) => board.id === id);
 
   BOARDS.splice(boardIndex, 1);
-  // deleteTasksOnBoardDelete(id);
+  deleteTasksOnBoardDelete(id);
 };
 
 export { getAll, getById, createBoard, updateBoard, deleteBoard };

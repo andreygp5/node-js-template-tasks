@@ -6,7 +6,7 @@ import YAML from 'yamljs';
 import { SwaggerDefinition } from 'swagger-jsdoc';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
-// import taskRouter from './resources/tasks/task.router.js';
+import taskRouter from './resources/tasks/task.router';
 
 const app: express.Application = express();
 const swaggerDocument: SwaggerDefinition = YAML.load(
@@ -27,6 +27,6 @@ app.use('/', (req, res, next) => {
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
-// app.use('/boards/', taskRouter);
+app.use('/boards/', taskRouter);
 
 export default app;

@@ -1,7 +1,7 @@
 import User from './user.model';
 import { USERS } from '../../db/database';
 
-// import { updateTasksWhereUserAssignee } from '../tasks/task.service';
+import { updateTasksWhereUserAssignee } from '../tasks/task.service';
 
 import { IUser } from './user';
 
@@ -67,7 +67,7 @@ const deleteUser = async (id: string): Promise<void> => {
   const userIndex = USERS.findIndex((user) => user.id === id);
 
   USERS.splice(userIndex, 1);
-  // updateTasksWhereUserAssignee(id);
+  updateTasksWhereUserAssignee(id);
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };

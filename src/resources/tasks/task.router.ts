@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as controllers from './task.controllers.js';
+import * as controllers from './task.controllers';
 
-const router = new Router();
+const router: Router = Router();
 
 router.get('/:boardId/tasks', controllers.getTasks);
 router.get('/:boardId/tasks/:taskId', controllers.getTaskById);
