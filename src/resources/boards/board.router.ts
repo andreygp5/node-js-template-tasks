@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as controllers from './board.controllers.js';
+import * as controllers from './board.controllers';
 
-const router = new Router();
+const router: Router = Router();
 
 router.get('/', controllers.getBoards);
 router.get('/:boardId', controllers.getBoardById);
