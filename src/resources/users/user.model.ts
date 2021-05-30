@@ -1,10 +1,12 @@
 import { v1 as uuidv1 } from 'uuid';
 
+import { IUser } from './user';
+
 /**
  * UserModel
  *
  * @typedef {Object} UserModel
- * @property {number} id User unique id
+ * @property {string} id User unique id
  * @property {string} name User name
  * @property {string} login User login
  * @property {string} password User password
@@ -13,7 +15,15 @@ import { v1 as uuidv1 } from 'uuid';
 /**
  * User model class
  */
-export default class User {
+export default class User implements IUser {
+  id: string;
+
+  name: string;
+
+  login: string;
+
+  password: string;
+
   /**
    * @param {UserModel} [user={}] User object
    */
@@ -37,7 +47,7 @@ export default class User {
    *
    * @return {UserToResponse} User object without secret fields
    */
-  static toResponse(user) {
+  static toResponse(user: IUser): Omit<IUser, 'password'> {
     const { id, name, login } = user;
     return { id, name, login };
   }

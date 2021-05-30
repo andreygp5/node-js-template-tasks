@@ -1,14 +1,16 @@
-import User from './user.model.js';
-import { USERS } from '../../db/database.js';
+import User from './user.model';
+import { USERS } from '../../db/database';
 
-import { updateTasksWhereUserAssignee } from '../tasks/task.service.js';
+// import { updateTasksWhereUserAssignee } from '../tasks/task.service';
+
+import { IUser } from './user';
 
 /**
  * Get all users from db
  *
  * @returns {Promise<Array<import('./user.model.js').UserModel>>} Users array
  */
-const getAll = async () => USERS;
+const getAll = async (): Promise<IUser[]> => USERS;
 
 /**
  * Get user by id from db
@@ -18,7 +20,8 @@ const getAll = async () => USERS;
  *
  * @returns {Promise<import('./user.model.js').UserModel|undefined>} User or undefined
  */
-const getById = async (id) => USERS.find((user) => user.id === id);
+const getById = async (id: string): Promise<IUser | undefined> =>
+  USERS.find((user) => user.id === id);
 
 /**
  * Creates user in db with info from request
@@ -27,7 +30,7 @@ const getById = async (id) => USERS.find((user) => user.id === id);
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
-const createUser = async (user) => {
+const createUser = async (user: Omit<IUser, 'id'>): Promise<IUser> => {
   const newUser = new User({ ...user });
   USERS.push(newUser);
   return newUser;
@@ -41,8 +44,10 @@ const createUser = async (user) => {
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Updated user instance
  */
-const updateUser = async (id, updatedUser) => {
+const updateUser = async (id: string, updatedUser: IUser): Promise<IUser> => {
   const user = await getById(id);
+  if (!user) throw new Error('No user with this id');
+
   const { name, login, password } = updatedUser;
 
   user.name = name;
@@ -58,11 +63,11 @@ const updateUser = async (id, updatedUser) => {
  * @param {number} id Desired user id
  * @returns {Promise<void>}
  */
-const deleteUser = async (id) => {
+const deleteUser = async (id: string): Promise<void> => {
   const userIndex = USERS.findIndex((user) => user.id === id);
 
   USERS.splice(userIndex, 1);
-  updateTasksWhereUserAssignee(id);
+  // updateTasksWhereUserAssignee(id);
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };

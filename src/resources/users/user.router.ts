@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as controllers from './user.controllers.js';
+import * as controllers from './user.controllers';
 
-const router = new Router();
+const router: Router = Router();
 
 router.get('/', controllers.getUsers);
 router.get('/:userId', controllers.getUserById);
