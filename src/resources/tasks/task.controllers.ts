@@ -1,13 +1,35 @@
-import * as tasksService from './task.service.js';
+import express from 'express';
+import { ITask } from './task';
 
-const getTasks = async (req, res) => {
+import * as tasksService from './task.service';
+
+const getTasks = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId } = req.params;
+  if (!boardId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
+
   const tasks = await tasksService.getAllFromBoard(boardId);
   res.status(200).json(tasks);
 };
 
-const getTaskById = async (req, res) => {
+const getTaskById = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId, taskId } = req.params;
+  if (!boardId || !taskId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
 
   try {
     const desiredTask = await tasksService.getByIdFromBoard(boardId, taskId);
@@ -21,9 +43,19 @@ const getTaskById = async (req, res) => {
   }
 };
 
-const createTask = async (req, res) => {
+const createTask = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId } = req.params;
-  const task = req.body;
+  if (!boardId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
+
+  const task: ITask = req.body;
 
   try {
     const createdTask = await tasksService.createTaskOnBoard(boardId, task);
@@ -33,9 +65,19 @@ const createTask = async (req, res) => {
   }
 };
 
-const updateTask = async (req, res) => {
+const updateTask = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId, taskId } = req.params;
-  const task = req.body;
+  if (!boardId || !taskId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
+
+  const task: Omit<ITask, 'id'> = req.body;
 
   try {
     const updatedTask = await tasksService.updateTaskOnBoard(
@@ -49,8 +91,17 @@ const updateTask = async (req, res) => {
   }
 };
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId, taskId } = req.params;
+  if (!boardId || !taskId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
 
   try {
     await tasksService.deleteTaskFromBoard(boardId, taskId);

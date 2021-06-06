@@ -1,12 +1,27 @@
-import * as boardsService from './board.service.js';
+import express from 'express';
+import { IBoard } from './board';
 
-const getBoards = async (req, res) => {
+import * as boardsService from './board.service';
+
+const getBoards = async (
+  _req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const boards = await boardsService.getAll();
   res.status(200).json(boards);
 };
 
-const getBoardById = async (req, res) => {
+const getBoardById = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId } = req.params;
+  if (!boardId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
 
   try {
     const desiredBoard = await boardsService.getById(boardId);
@@ -20,8 +35,11 @@ const getBoardById = async (req, res) => {
   }
 };
 
-const createBoard = async (req, res) => {
-  const board = req.body;
+const createBoard = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
+  const board: Omit<IBoard, 'id'> = req.body;
 
   try {
     const createdBoard = await boardsService.createBoard(board);
@@ -31,9 +49,18 @@ const createBoard = async (req, res) => {
   }
 };
 
-const updateBoard = async (req, res) => {
+const updateBoard = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId } = req.params;
-  const board = req.body;
+  if (!boardId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
+  const board: IBoard = req.body;
 
   try {
     const updatedBoard = await boardsService.updateBoard(boardId, board);
@@ -43,8 +70,17 @@ const updateBoard = async (req, res) => {
   }
 };
 
-const deleteBoard = async (req, res) => {
+const deleteBoard = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const { boardId } = req.params;
+  if (!boardId) {
+    res.status(400).json({
+      message: 'Id is not valid',
+    });
+    return;
+  }
 
   try {
     await boardsService.deleteBoard(boardId);
