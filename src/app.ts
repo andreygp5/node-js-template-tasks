@@ -8,7 +8,7 @@ import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 
-import { logger } from './middlewares/logger';
+import { logger, uncaughtLogger, unhandledLogger } from './middlewares/loggers';
 import { errorMiddleware } from './middlewares/error';
 
 import { IErrorHandler } from './helpers/ErrorHandler';
@@ -44,5 +44,8 @@ app.use(
     _next: express.NextFunction
   ) => errorMiddleware(err, req, res)
 );
+
+process.on('uncaughtException', (error: Error) => uncaughtLogger(error));
+process.on('unhandledRejection', (reason: string) => unhandledLogger(reason));
 
 export default app;

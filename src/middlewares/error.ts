@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { IErrorHandler } from '../helpers/ErrorHandler';
-import { errorLogger } from './logger';
+import { errorLogger } from './loggers';
 
 const errorMiddleware = (
   err: IErrorHandler,
