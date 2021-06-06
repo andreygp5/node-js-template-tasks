@@ -4,6 +4,8 @@ import Task from './task.model';
 import { TASKS } from '../../db/database';
 import { ITask } from './task';
 
+import { ErrorHandler } from '../../helpers/ErrorHandler';
+
 /**
  * Get all tasks from board
  *
@@ -62,7 +64,7 @@ const updateTaskOnBoard = async (
   updatedTask: Omit<ITask, 'id'>
 ): Promise<ITask> => {
   const task = await getByIdFromBoard(boardId, taskId);
-  if (!task) throw new Error('Id is not valid');
+  if (!task) throw new ErrorHandler(400, 'Id is not valid');
 
   const {
     title,
@@ -97,6 +99,10 @@ const deleteTaskFromBoard = async (
   const taskIndex = TASKS.findIndex(
     (task) => task.boardId === boardId && task.id === taskId
   );
+
+  if (taskIndex === -1) {
+    throw new ErrorHandler();
+  }
 
   TASKS.splice(taskIndex, 1);
 };
