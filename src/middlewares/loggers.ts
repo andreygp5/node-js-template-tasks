@@ -40,6 +40,7 @@ const logger = (
     const time = Date.now() - start;
 
     const logStr = `[${method}] ${url} : ${statusCode} : Body=${JSON.stringify(body)} : Query=${JSON.stringify(query)} [${time}ms]\n`;
+    process.stdout.write(logStr);
 
     logToFile('httpRequests', logStr);
   });
@@ -49,6 +50,7 @@ const errorLogger = (err: IErrorHandler, url: string, method: string): void => {
   const { statusCode, msg } = err;
 
   const logStr = `[${statusCode}] : ${JSON.stringify(msg)} from [${method}] - ${url} at ${new Date().toLocaleTimeString()}\n`;
+  process.stdout.write(logStr);
 
   logToFile('errors', logStr);
 };

@@ -5,3 +5,10 @@
 [404] : "Task not found" from [GET] - /boards/218b6900-c6ef-11eb-8988-83b5dcd99faf/tasks/218db2f0-c6ef-11eb-8988-83b5dcd99faf at 8:46:32 PM
 [404] : "Task not found" from [GET] - /boards/218b6900-c6ef-11eb-8988-83b5dcd99faf/tasks/218e0110-c6ef-11eb-8988-83b5dcd99faf at 8:46:32 PM
 [404] : "Task not found" from [GET] - /boards/218b6900-c6ef-11eb-8988-83b5dcd99faf/tasks/218e2820-c6ef-11eb-8988-83b5dcd99faf at 8:46:32 PM
+[404] : "Board not found" from [GET] - /boards/50cf2c10-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
+[404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50d9b360-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
+[404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50da0180-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
+[404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50da76b0-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
+[404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50db6110-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
+[404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50db12f0-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
+[404] : "Task not found" from [GET] - /boards/511ef9c0-c6ef-11eb-825b-eb651047ca01/tasks/511fbd10-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
