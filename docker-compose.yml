@@ -2,6 +2,7 @@ version: '3.8'
 services:
   express:
     build: .
+    restart: always
     networks:
       - app
     volumes:
@@ -13,10 +14,15 @@ services:
     depends_on:
       - postgres
     environment:
-      - PORT=4000
+      - PORT=${PORT}
+      - DB_SCHEMA=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_PORT=${POSTGRES_PORT}
 
   postgres:
     build: ./postgres/
+    restart: always
     networks:
       - app
     image: andreygp5/postgres-rest

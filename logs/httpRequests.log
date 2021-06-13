@@ -154,3 +154,4 @@
 [GET] /users : 201 : Body={} : Query={} [2ms]
 [GET] /users : 200 : Body={} : Query={} [6ms]
 [GET] /users : 304 : Body={} : Query={} [1ms]
+[POST] /users : 201 : Body={"name":"string","login":"string","password":"string"} : Query={} [5ms]
