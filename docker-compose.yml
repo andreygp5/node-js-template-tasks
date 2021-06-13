@@ -25,6 +25,8 @@ services:
     restart: always
     networks:
       - app
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
     image: andreygp5/postgres-rest
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}

@@ -12,4 +12,17 @@
 [404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50db6110-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
 [404] : "Task not found" from [GET] - /boards/50d79080-c6ef-11eb-825b-eb651047ca01/tasks/50db12f0-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
 [404] : "Task not found" from [GET] - /boards/511ef9c0-c6ef-11eb-825b-eb651047ca01/tasks/511fbd10-c6ef-11eb-825b-eb651047ca01 at 8:47:52 PM
-ascascsac
+ascascsac[404] : "Board not found" from [GET] - /boards/d6bbf8b0-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Task not found" from [GET] - /boards/d6c5e3c0-cc82-11eb-a84c-d31ec2e16752/tasks/d6c7b880-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Task not found" from [GET] - /boards/d6c5e3c0-cc82-11eb-a84c-d31ec2e16752/tasks/d6c79170-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Task not found" from [GET] - /boards/d6c5e3c0-cc82-11eb-a84c-d31ec2e16752/tasks/d6c854c0-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Task not found" from [GET] - /boards/d6c5e3c0-cc82-11eb-a84c-d31ec2e16752/tasks/d6c87bd0-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Task not found" from [GET] - /boards/d6c5e3c0-cc82-11eb-a84c-d31ec2e16752/tasks/d6c8c9f0-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Task not found" from [GET] - /boards/d6f11270-cc82-11eb-a84c-d31ec2e16752/tasks/d6f1fcd0-cc82-11eb-a84c-d31ec2e16752 at 8:06:28 PM
+[404] : "Board not found" from [GET] - /boards/a5f84f90-cc86-11eb-8d34-973397d71e97 at 8:33:44 PM
+[404] : "Task not found" from [GET] - /boards/a5fff0b0-cc86-11eb-8d34-973397d71e97/tasks/a6019e60-cc86-11eb-8d34-973397d71e97 at 8:33:44 PM
+[404] : "Task not found" from [GET] - /boards/a5fff0b0-cc86-11eb-8d34-973397d71e97/tasks/a6021390-cc86-11eb-8d34-973397d71e97 at 8:33:44 PM
+[404] : "Task not found" from [GET] - /boards/a5fff0b0-cc86-11eb-8d34-973397d71e97/tasks/a601c570-cc86-11eb-8d34-973397d71e97 at 8:33:44 PM
+[404] : "Task not found" from [GET] - /boards/a5fff0b0-cc86-11eb-8d34-973397d71e97/tasks/a60261b0-cc86-11eb-8d34-973397d71e97 at 8:33:44 PM
+[404] : "Task not found" from [GET] - /boards/a5fff0b0-cc86-11eb-8d34-973397d71e97/tasks/a602afd0-cc86-11eb-8d34-973397d71e97 at 8:33:44 PM
+[404] : "Task not found" from [GET] - /boards/a63139e0-cc86-11eb-8d34-973397d71e97/tasks/a6324b50-cc86-11eb-8d34-973397d71e97 at 8:33:45 PM
