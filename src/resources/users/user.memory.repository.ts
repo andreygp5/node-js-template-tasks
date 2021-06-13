@@ -5,6 +5,8 @@ import { updateTasksWhereUserAssignee } from '../tasks/task.service';
 
 import { IUser } from './user';
 
+import { ErrorHandler } from '../../helpers/ErrorHandler';
+
 /**
  * Get all users from db
  *
@@ -65,6 +67,9 @@ const updateUser = async (id: string, updatedUser: IUser): Promise<IUser> => {
  */
 const deleteUser = async (id: string): Promise<void> => {
   const userIndex = USERS.findIndex((user) => user.id === id);
+  if (userIndex === -1) {
+    throw new ErrorHandler();
+  }
 
   USERS.splice(userIndex, 1);
   updateTasksWhereUserAssignee(id);

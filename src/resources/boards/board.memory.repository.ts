@@ -7,6 +7,8 @@ import * as columnsService from '../columns/column.service';
 import { deleteTasksOnBoardDelete } from '../tasks/task.service';
 import { IBoard } from './board';
 
+import { ErrorHandler } from '../../helpers/ErrorHandler';
+
 /**
  * Get all boards from db
  *
@@ -79,6 +81,9 @@ const updateBoard = async (
  */
 const deleteBoard = async (id: string): Promise<void> => {
   const boardIndex = BOARDS.findIndex((board) => board.id === id);
+  if (boardIndex === -1) {
+    throw new ErrorHandler();
+  }
 
   BOARDS.splice(boardIndex, 1);
   deleteTasksOnBoardDelete(id);
