@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  express:
+    build: .
+    networks:
+      - app
+    volumes:
+      - ./src:/app/src
+      - ./logs:/app/logs
+    image: andreygp5/express-rest
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    environment:
+      - PORT=4000
+
+  postgres:
+    build: ./postgres/
+    networks:
+      - app
+    image: andreygp5/postgres-rest
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+networks:
+  app:
+    driver: bridge
