@@ -1,2 +1,66 @@
 Oops! at 8:45:03 PM
 Oops! at 8:46:10 PM
+⨯ Unable to compile TypeScript:
+src/common/ormconfig.ts(15,3): error TS1005: ',' expected.
+ at 10:04:38 PM
+⨯ Unable to compile TypeScript:
+src/common/ormconfig.ts(1,1): error TS6133: 'path' is declared but its value is never read.
+ at 10:10:51 PM
+⨯ Unable to compile TypeScript:
+src/common/ormconfig.ts(6,16): error TS2352: Conversion of type '{ type: string | undefined; host: string | undefined; port: string | undefined; username: string | undefined; password: string | undefined; database: string | undefined; entities: string; synchronize: true; }' to type 'ConnectionOptions' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ type: string | undefined; host: string | undefined; port: string | undefined; username: string | undefined; password: string | undefined; database: string | undefined; entities: string; synchronize: true; }' is missing the following properties from type 'AuroraDataApiConnectionOptions': region, secretArn, resourceArn
+ at 10:11:57 PM
+⨯ Unable to compile TypeScript:
+src/common/ormconfig.ts(14,3): error TS2304: Cannot find name 'synchronize'.
+src/common/ormconfig.ts(14,16): error TS2345: Argument of type 'boolean' is not assignable to parameter of type 'string'.
+src/common/ormconfig.ts(13,56): error TS1002: Unterminated string literal.
+src/common/ormconfig.ts(14,3): error TS1005: ',' expected.
+src/common/ormconfig.ts(14,14): error TS1005: ',' expected.
+src/common/ormconfig.ts(15,1): error TS1135: Argument expression expected.
+ at 10:13:11 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(5,45): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string): Promise<Connection>', gave the following error.
+    Argument of type 'ConnectionOptions[]' is not assignable to parameter of type 'string'.
+  Overload 2 of 3, '(options: ConnectionOptions): Promise<Connection>', gave the following error.
+    Argument of type 'ConnectionOptions[]' is not assignable to parameter of type 'ConnectionOptions'.
+      Type 'ConnectionOptions[]' is missing the following properties from type 'CapacitorConnectionOptions': type, database, driver
+ at 11:17:10 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(5,45): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string): Promise<Connection>', gave the following error.
+    Argument of type 'ConnectionOptions[]' is not assignable to parameter of type 'string'.
+  Overload 2 of 3, '(options: ConnectionOptions): Promise<Connection>', gave the following error.
+    Argument of type 'ConnectionOptions[]' is not assignable to parameter of type 'ConnectionOptions'.
+      Type 'ConnectionOptions[]' is missing the following properties from type 'CapacitorConnectionOptions': type, database, driver
+ at 11:17:28 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(2,8): error TS1192: Module '"/app/src/common/ormconfig"' has no default export.
+ at 11:18:12 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(2,8): error TS1192: Module '"/app/src/common/ormconfig"' has no default export.
+ at 11:18:33 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(5,45): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string): Promise<Connection>', gave the following error.
+    Argument of type 'ConnectionOptions[]' is not assignable to parameter of type 'string'.
+  Overload 2 of 3, '(options: ConnectionOptions): Promise<Connection>', gave the following error.
+    Argument of type 'ConnectionOptions[]' is not assignable to parameter of type 'ConnectionOptions'.
+      Type 'ConnectionOptions[]' is missing the following properties from type 'CapacitorConnectionOptions': type, database, driver
+ at 11:18:52 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(2,8): error TS1192: Module '"/app/src/common/ormconfig"' has no default export.
+ at 11:19:48 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(2,10): error TS2305: Module '"../common/ormconfig"' has no exported member 'mainConfig'.
+ at 11:25:31 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(2,28): error TS2306: File '/app/src/common/ormconfig.ts' is not a module.
+ at 11:41:28 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(1,39): error TS6133: 'getConnectionOptions' is declared but its value is never read.
+src/helpers/DBConnection.ts(8,45): error TS2304: Cannot find name 'connectionOptions'.
+ at 12:48:27 PM
+⨯ Unable to compile TypeScript:
+src/helpers/DBConnection.ts(1,39): error TS6133: 'Migration' is declared but its value is never read.
+ at 5:23:20 PM

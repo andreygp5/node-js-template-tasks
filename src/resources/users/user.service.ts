@@ -1,12 +1,12 @@
 import * as usersRepo from './user.memory.repository';
-import { IUser } from './user';
+import { User } from '../../entities/User';
 
 /**
  * Get all users from db
  *
  * @returns {Promise<Array<import('./user.model.js').UserModel>>} Users array
  */
-const getAll = (): Promise<IUser[]> => usersRepo.getAll();
+const getAll = (): Promise<User[]> => usersRepo.getAll();
 
 /**
  * Get user by id from db
@@ -16,7 +16,7 @@ const getAll = (): Promise<IUser[]> => usersRepo.getAll();
  *
  * @returns {Promise<import('./user.model.js').UserModel|undefined>} User or undefined
  */
-const getById = (id: string): Promise<IUser | undefined> =>
+const getById = (id: string): Promise<User | undefined> =>
   usersRepo.getById(id);
 
 /**
@@ -26,7 +26,7 @@ const getById = (id: string): Promise<IUser | undefined> =>
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
-const createUser = (user: Omit<IUser, 'id'>): Promise<IUser> =>
+const createUser = (user: Omit<User, 'id'>): Promise<User> =>
   usersRepo.createUser(user);
 
 /**
@@ -37,7 +37,7 @@ const createUser = (user: Omit<IUser, 'id'>): Promise<IUser> =>
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Updated user instance
  */
-const updateUser = (id: string, updatedUser: IUser): Promise<IUser> =>
+const updateUser = (id: string, updatedUser: User): Promise<User | undefined> =>
   usersRepo.updateUser(id, updatedUser);
 
 /**

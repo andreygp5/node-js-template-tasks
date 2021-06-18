@@ -1,5 +1,4 @@
 import express from 'express';
-import { IBoard } from './board';
 
 import * as boardsService from './board.service';
 
