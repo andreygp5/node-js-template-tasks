@@ -3,6 +3,7 @@ import express from 'express';
 import * as boardsService from './board.service';
 
 import { ErrorHandler } from '../../helpers/ErrorHandler';
+import { Board } from '../../entities/Board';
 
 const getBoards = async (
   _req: express.Request,
@@ -38,7 +39,7 @@ const createBoard = async (
   res: express.Response,
   next: express.NextFunction
 ): Promise<void> => {
-  const board: Omit<IBoard, 'id'> = req.body;
+  const board: Omit<Board, 'id'> = req.body;
 
   try {
     const createdBoard = await boardsService.createBoard(board);
@@ -60,7 +61,7 @@ const updateBoard = async (
   if (!boardId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
-  const board: IBoard = req.body;
+  const board: Board = req.body;
 
   try {
     const updatedBoard = await boardsService.updateBoard(boardId, board);

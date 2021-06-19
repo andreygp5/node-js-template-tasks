@@ -1,13 +1,10 @@
 /* eslint-disable no-shadow */
-import Board from './board.model';
-
-import { BOARDS } from '../../db/database';
+import { Board } from '../../entities/Board';
 
 import * as columnsService from '../columns/column.service';
-import { deleteTasksOnBoardDelete } from '../tasks/task.service';
-import { IBoard } from './board';
+// import { deleteTasksOnBoardDelete } from '../tasks/task.service';
 
-import { ErrorHandler } from '../../helpers/ErrorHandler';
+// import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 /**
  * Get all boards from db
@@ -15,7 +12,7 @@ import { ErrorHandler } from '../../helpers/ErrorHandler';
  * @returns {Promise<Array<import('./board.model.js').BoardModel>>}
  * Boards array
  */
-const getAll = async (): Promise<IBoard[]> => BOARDS;
+const getAll = async (): Promise<Board[]> => Board.find();
 
 /**
  * Get board by id from db
@@ -25,8 +22,10 @@ const getAll = async (): Promise<IBoard[]> => BOARDS;
  *
  * @returns {Promise<import('./board.model.js').BoardModel|undefined>} Board or undefined
  */
-const getById = async (id: string): Promise<IBoard | undefined> =>
-  BOARDS.find((board: IBoard) => board.id === id);
+const getById = async (id: string): Promise<Board | undefined> => {
+  const board = await Board.findOne({ where: { id }});
+  return board;
+}
 
 /**
  * Creates board in db with info from request
@@ -36,15 +35,15 @@ const getById = async (id: string): Promise<IBoard | undefined> =>
  *
  * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
  */
-const createBoard = async (board: Omit<IBoard, 'id'>): Promise<IBoard> => {
+const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
   const { columns, title } = board;
-  const newBoard = new Board({ title });
+  const newBoard = await Board.create({ title });
 
   await columns.forEach(async (column) => {
     newBoard.columns.push(await columnsService.createColumn(column));
   });
 
-  BOARDS.push(newBoard);
+  await Board.save(newBoard);
   return newBoard;
 };
 
@@ -59,8 +58,8 @@ const createBoard = async (board: Omit<IBoard, 'id'>): Promise<IBoard> => {
  */
 const updateBoard = async (
   id: string,
-  updatedBoard: Omit<IBoard, 'id'>
-): Promise<IBoard> => {
+  updatedBoard: Omit<Board, 'id'>
+): Promise<Board> => {
   const board = await getById(id);
   if (!board) throw new Error('Id is not valid');
 
@@ -68,6 +67,8 @@ const updateBoard = async (
 
   await columnsService.updateColumnsInBoard(updatedColumns, board);
   board.title = title;
+
+  await Board.save(board);
 
   return board;
 };
@@ -80,13 +81,7 @@ const updateBoard = async (
  * @returns {Promise<void>}
  */
 const deleteBoard = async (id: string): Promise<void> => {
-  const boardIndex = BOARDS.findIndex((board) => board.id === id);
-  if (boardIndex === -1) {
-    throw new ErrorHandler();
-  }
-
-  BOARDS.splice(boardIndex, 1);
-  deleteTasksOnBoardDelete(id);
+  await Board.delete(id);
 };
 
 export { getAll, getById, createBoard, updateBoard, deleteBoard };

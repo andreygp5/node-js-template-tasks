@@ -1,7 +1,5 @@
-import { IBoard } from '../boards/board';
-import { IColumn } from './column';
-
-import Column from './column.model';
+import { Board } from '../../entities/Board';
+import { BoardColumn } from '../../entities/BoardColumn';
 
 /**
  * Creates column
@@ -12,8 +10,12 @@ import Column from './column.model';
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
-const createColumn = async (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
-  new Column({ ...column });
+const createColumn = async (column: Omit<BoardColumn, 'id'>): Promise<BoardColumn> => {
+  const newColumn = await BoardColumn.create(column);
+  await BoardColumn.save(newColumn);
+
+  return newColumn;
+}
 
 /**
  * Updates column
@@ -26,34 +28,14 @@ const createColumn = async (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
  * Updated column instance
  */
 const updateFields = async (
-  newFields: Omit<IColumn, 'id'>,
-  column: IColumn
-): Promise<IColumn> => {
-  const { title, order } = newFields;
-  const newColumn = column;
+  newFields: Omit<BoardColumn, 'id'>,
+  column: BoardColumn
+): Promise<BoardColumn> => {
+  await BoardColumn.update(newFields, column)
+  await BoardColumn.save(column);
 
-  newColumn.title = title;
-  newColumn.order = order;
-
-  return newColumn;
+  return column;
 };
-
-/**
- * Get column by id from db
- * If column doesn't exist - returns undefined
- *
- * @param {number} columnId Desired column id
- * @param {import('../boards/board.model.js').BoardModel} board
- * Board instance, where the column is being found
- *
- * @returns {Promise<import('./column.model.js').ColumnModel | undefined>}
- * Column or undefined
- */
-const getColumnFromBoardById = async (
-  columnId: string,
-  board: IBoard
-): Promise<IColumn | undefined> =>
-  board.columns.find((column) => column.id === columnId);
 
 /**
  * Updates columns on board or creates new columns if column doesn't exist
@@ -66,26 +48,17 @@ const getColumnFromBoardById = async (
  * @returns {Promise<void>}
  */
 const updateColumnsInBoard = async (
-  updatedColumns: IColumn[],
-  board: IBoard
+  updatedColumns: BoardColumn[],
+  board: Board,
 ): Promise<void> => {
   await updatedColumns.forEach(async (updatedColumn) => {
-    const columnInBoard = await getColumnFromBoardById(updatedColumn.id, board);
-    if (columnInBoard) {
-      updateFields(
-        {
-          title: updatedColumn.title,
-          order: updatedColumn.order,
-        },
-        columnInBoard
-      );
+    const columnToUpdate = await BoardColumn.findOne(updatedColumn);
+
+    if (columnToUpdate) {
+      updateFields(updatedColumn, columnToUpdate);
     } else {
-      board.columns.push(
-        await createColumn({
-          title: updatedColumn.title,
-          order: updatedColumn.order,
-        })
-      );
+      const newColumn = await BoardColumn.create(updatedColumn);
+      board.columns.push(newColumn);
     }
   });
 };
@@ -93,6 +66,5 @@ const updateColumnsInBoard = async (
 export {
   createColumn,
   updateFields,
-  getColumnFromBoardById,
   updateColumnsInBoard,
 };

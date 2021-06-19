@@ -13,7 +13,7 @@ const getUsers = async (
 ): Promise<void> => {
   const users = await usersService.getAll();
   // Map user fields to exclude secret fields like "password"
-  res.status(200).json(users);
+  res.status(200).json(users.map(User.toResponse));
 };
 
 const getUserById = async (
@@ -31,7 +31,7 @@ const getUserById = async (
     if (!desiredUser) {
       throw new ErrorHandler(400, 'Id is not valid');
     }
-    res.status(200).json(desiredUser);
+    res.status(200).json(User.toResponse(desiredUser));
   } catch (error) {
     next(error);
   }
@@ -49,7 +49,7 @@ const createUser = async (
     if (!createdUser) {
       throw new ErrorHandler();
     }
-    res.status(201).json(createdUser);
+    res.status(201).json(User.toResponse(createdUser));
   } catch (error){
     next(error);
   }
@@ -71,7 +71,7 @@ const updateUser = async (
     if (!updatedUser) {
       throw new ErrorHandler();
     }
-    res.status(200).json(updatedUser);
+    res.status(200).json(User.toResponse(updatedUser));
   } catch (error) {
     next(error);
   }

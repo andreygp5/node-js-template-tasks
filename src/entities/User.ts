@@ -15,4 +15,9 @@ export class User extends BaseEntity {
     @Column({ default: "USER_PASSWORD" })
     password: string;
 
+    static toResponse(user: User): Omit<User, "password"> {
+        const { id, name, login } = user;
+        return { id, name, login } as Omit<User, "password">;
+    }
+
 }

@@ -33,3 +33,5 @@ ascascsac[404] : "Board not found" from [GET] - /boards/d6bbf8b0-cc82-11eb-a84c-
 [404] : "Task not found" from [GET] - /boards/50e2f720-cf7f-11eb-b8d9-999dae38dca8/tasks/50e51a00-cf7f-11eb-b8d9-999dae38dca8 at 3:18:49 PM
 [404] : "Task not found" from [GET] - /boards/50e2f720-cf7f-11eb-b8d9-999dae38dca8/tasks/50e5b640-cf7f-11eb-b8d9-999dae38dca8 at 3:18:49 PM
 [404] : "Task not found" from [GET] - /boards/510f1030-cf7f-11eb-b8d9-999dae38dca8/tasks/510fd380-cf7f-11eb-b8d9-999dae38dca8 at 3:18:49 PM
+[400] : "Id is not valid" from [GET] - /users/7c21d5a8-79ab-488a-85d2-8d49b1a9c99e at 10:31:28 PM
+[undefined] : undefined from [POST] - /users at 11:19:33 AM

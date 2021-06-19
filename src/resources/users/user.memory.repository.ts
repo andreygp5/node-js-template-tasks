@@ -1,6 +1,7 @@
 import { User } from '../../entities/User';
+import { ErrorHandler } from '../../helpers/ErrorHandler';
 
-import { updateTasksWhereUserAssignee } from '../tasks/task.service';
+// import { updateTasksWhereUserAssignee } from '../tasks/task.service';
 
 // import { ErrorHandler } from '../../helpers/ErrorHandler';
 
@@ -32,9 +33,10 @@ const getById = async (id: string): Promise<User | undefined> => {
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
 const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
-  const newUser = await User.create({...user});
+  const newUser = await User.create(user);
   newUser.save();
-  return newUser;
+  
+  return User.findOneOrFail(newUser);
 };
 
 /**
@@ -47,10 +49,12 @@ const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
  */
 const updateUser = async (id: string, updatedUser: User): Promise<User | undefined> => {
   const user = await getById(id);
-  await User.update(id, {...updatedUser});
-  await user?.save()
+  if (!user) {
+    throw new ErrorHandler(404, "User not found");
+  }
+  await User.update(id, updatedUser);
 
-  return user;
+  return getById(id);
 };
 
 /**
@@ -62,7 +66,7 @@ const updateUser = async (id: string, updatedUser: User): Promise<User | undefin
 const deleteUser = async (id: string): Promise<void> => {
   await User.delete(id);
 
-  updateTasksWhereUserAssignee(id);
+  // updateTasksWhereUserAssignee(id);
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };
