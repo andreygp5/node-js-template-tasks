@@ -1,5 +1,12 @@
 # RS School REST service
 
+## How to run with docker
+
+1. Clone repo
+2. Checkout branch `docker-basics`
+3. `docker-compose up` - starts app
+4. `docker-compose down` - stop app
+
 ## Prerequisites
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
