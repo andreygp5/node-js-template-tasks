@@ -1,10 +1,6 @@
 import { User } from '../../entities/User';
 import { ErrorHandler } from '../../helpers/ErrorHandler';
 
-// import { updateTasksWhereUserAssignee } from '../tasks/task.service';
-
-// import { ErrorHandler } from '../../helpers/ErrorHandler';
-
 /**
  * Get all users from db
  *
@@ -34,8 +30,8 @@ const getById = async (id: string): Promise<User | undefined> => {
  */
 const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
   const newUser = await User.create(user);
-  newUser.save();
-  
+  await newUser.save();
+
   return User.findOneOrFail(newUser);
 };
 
@@ -64,9 +60,7 @@ const updateUser = async (id: string, updatedUser: User): Promise<User | undefin
  * @returns {Promise<void>}
  */
 const deleteUser = async (id: string): Promise<void> => {
-  await User.delete(id);
-
-  // updateTasksWhereUserAssignee(id);
+  await User.delete({ id });
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };

@@ -50,7 +50,7 @@ const createUser = async (
       throw new ErrorHandler();
     }
     res.status(201).json(User.toResponse(createdUser));
-  } catch (error){
+  } catch (error) {
     next(error);
   }
 };

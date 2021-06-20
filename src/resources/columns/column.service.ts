@@ -12,8 +12,8 @@ import * as columnsRepo from './column.memory.repository';
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
-const createColumn = (column: Omit<BoardColumn, 'id'>): Promise<BoardColumn> =>
-  columnsRepo.createColumn(column);
+const createColumn = (column: Omit<BoardColumn, 'id'>, board: Board): Promise<BoardColumn> =>
+  columnsRepo.createColumn(column, board);
 
 /**
  * Updates column
@@ -40,13 +40,14 @@ const updateFields = (
  *
  * @returns {Promise<void>}
  */
-const updateColumnsInBoard = (
-  updatedColumns: BoardColumn[],
-  board: Board
-): Promise<void> => columnsRepo.updateColumnsInBoard(updatedColumns, board);
+const updateColumnsInBoard = (updatedColumns: BoardColumn[], board: Board): Promise<BoardColumn[]> =>
+  columnsRepo.updateColumnsInBoard(updatedColumns, board);
+
+const deleteColumns = async (columns: BoardColumn[]): Promise<void> => columnsRepo.deleteColumns(columns);
 
 export {
   createColumn,
   updateFields,
   updateColumnsInBoard,
+  deleteColumns,
 };

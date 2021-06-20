@@ -19,15 +19,13 @@ const getBoardById = async (
   next: express.NextFunction
 ): Promise<void> => {
   const { boardId } = req.params;
+
   if (!boardId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
 
   try {
     const desiredBoard = await boardsService.getById(boardId);
-    if (!desiredBoard) {
-      throw new ErrorHandler(404,'Board not found' )
-    }
     res.status(200).json(desiredBoard);
   } catch (error) {
     next(error);
@@ -43,9 +41,11 @@ const createBoard = async (
 
   try {
     const createdBoard = await boardsService.createBoard(board);
+
     if (!createdBoard) {
-      throw new ErrorHandler();
+      throw new ErrorHandler(400, 'Something went wrong');
     }
+
     res.status(201).json(createdBoard);
   } catch (error) {
     next(error);
@@ -58,16 +58,15 @@ const updateBoard = async (
   next: express.NextFunction
 ): Promise<void> => {
   const { boardId } = req.params;
+
   if (!boardId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
+
   const board: Board = req.body;
 
   try {
     const updatedBoard = await boardsService.updateBoard(boardId, board);
-    if (!updatedBoard) {
-      throw new ErrorHandler();
-    }
     res.status(200).json(updatedBoard);
   } catch (error) {
     next(error);

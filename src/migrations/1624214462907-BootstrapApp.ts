@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class TrelloStartup1624038223484 implements MigrationInterface {
-    name = 'TrelloStartup1624038223484'
+export class BootstrapApp1624214462907 implements MigrationInterface {
+    name = 'BootstrapApp1624214462907'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "board_column" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "title" character varying NOT NULL DEFAULT 'TITLE', "order" integer NOT NULL DEFAULT '0', "boardId" uuid, CONSTRAINT "PK_0273ece23af9b3e55ad6af2fdaa" PRIMARY KEY ("id"))`);

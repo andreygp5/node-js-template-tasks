@@ -1,10 +1,9 @@
 /* eslint-disable no-shadow */
 import { Board } from '../../entities/Board';
+import { BoardColumn } from '../../entities/BoardColumn';
+import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 import * as columnsService from '../columns/column.service';
-// import { deleteTasksOnBoardDelete } from '../tasks/task.service';
-
-// import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 /**
  * Get all boards from db
@@ -12,7 +11,10 @@ import * as columnsService from '../columns/column.service';
  * @returns {Promise<Array<import('./board.model.js').BoardModel>>}
  * Boards array
  */
-const getAll = async (): Promise<Board[]> => Board.find();
+const getAll = async (): Promise<Board[]> => {
+  const boards = await Board.find({ relations: ['columns'] })
+  return boards;
+};
 
 /**
  * Get board by id from db
@@ -23,7 +25,12 @@ const getAll = async (): Promise<Board[]> => Board.find();
  * @returns {Promise<import('./board.model.js').BoardModel|undefined>} Board or undefined
  */
 const getById = async (id: string): Promise<Board | undefined> => {
-  const board = await Board.findOne({ where: { id }});
+  const board = await Board.findOne({ where: { id }, relations: ['columns'] });
+
+  if (!board) {
+    throw new ErrorHandler(404, 'Board not found');
+  }
+
   return board;
 }
 
@@ -36,15 +43,28 @@ const getById = async (id: string): Promise<Board | undefined> => {
  * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
  */
 const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
-  const { columns, title } = board;
-  const newBoard = await Board.create({ title });
+  try {
+    const { columns, title } = board;
 
-  await columns.forEach(async (column) => {
-    newBoard.columns.push(await columnsService.createColumn(column));
-  });
+    const newBoard = Board.create();
 
-  await Board.save(newBoard);
-  return newBoard;
+    const columnsList: BoardColumn[] = [];
+
+    for await (const column of columns) {
+      const createdColumn = await columnsService.createColumn(column, newBoard);
+      columnsList.push(createdColumn);
+    }
+
+    newBoard.title = title;
+    newBoard.columns = columnsList;
+
+    await newBoard.save();
+
+    return newBoard;
+  } catch (error) {
+    throw new ErrorHandler(400, error)
+  }
+
 };
 
 /**
@@ -56,19 +76,18 @@ const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
  *
  * @returns {Promise<import('./board.model.js').BoardModel>} Updated board instance
  */
-const updateBoard = async (
-  id: string,
-  updatedBoard: Omit<Board, 'id'>
-): Promise<Board> => {
+const updateBoard = async (id: string, updatedBoard: Omit<Board, 'id'>): Promise<Board> => {
   const board = await getById(id);
-  if (!board) throw new Error('Id is not valid');
 
-  const { title, columns: updatedColumns } = updatedBoard;
+  if (!board) {
+    throw new ErrorHandler(404, 'Id is not valid');
+  }
 
-  await columnsService.updateColumnsInBoard(updatedColumns, board);
+  const { title, columns } = updatedBoard;
+  await columnsService.updateColumnsInBoard(columns, board);
+
   board.title = title;
-
-  await Board.save(board);
+  await board.save();
 
   return board;
 };
@@ -81,7 +100,15 @@ const updateBoard = async (
  * @returns {Promise<void>}
  */
 const deleteBoard = async (id: string): Promise<void> => {
-  await Board.delete(id);
+  const board = await getById(id);
+
+  if (!board) {
+    throw new ErrorHandler(404, 'Board not found');
+  }
+
+  await columnsService.deleteColumns(board.columns);
+
+  await board.remove();
 };
 
 export { getAll, getById, createBoard, updateBoard, deleteBoard };

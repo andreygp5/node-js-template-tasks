@@ -9,11 +9,11 @@ export class BoardColumn extends BaseEntity {
 
     @Column({ default: "TITLE" })
     title: string;
-  
+
     @Column({ default: 0 })
     order: number;
 
     @ManyToOne(() => Board, board => board.columns)
     board: Board;
-    
+
 }

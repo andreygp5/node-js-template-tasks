@@ -14,7 +14,7 @@
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "doc": "jsdoc -c jsdoc.json",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"    
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
   },
   "keywords": [
     "rs",
@@ -56,12 +56,14 @@
     "swagger-ui-express": "4.1.6",
     "typeorm": "^0.2.34",
     "uuid": "8.3.2",
+    "uuid-validate": "0.0.3",
     "yamljs": "0.3.0"
   },
   "devDependencies": {
     "@types/node": "^15.6.1",
     "@types/swagger-ui-express": "^4.1.2",
     "@types/uuid": "^8.3.0",
+    "@types/uuid-validate": "0.0.1",
     "@types/yamljs": "^0.2.31",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",

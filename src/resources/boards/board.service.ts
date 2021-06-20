@@ -28,8 +28,12 @@ const getById = (id: string): Promise<Board | undefined> =>
  *
  * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
  */
-const createBoard = (board: Omit<Board, 'id'>): Promise<Board> =>
-  boardsRepo.createBoard(board);
+const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
+  const createdBoard = await boardsRepo.createBoard(board);
+  console.log(`${createdBoard  }In service`);
+  
+  return createdBoard;
+}
 
 /**
  * Updates board in db with info from request

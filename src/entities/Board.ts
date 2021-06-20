@@ -9,8 +9,11 @@ export class Board extends BaseEntity {
 
     @Column({ default: "TITLE" })
     title: string;
-  
-    @OneToMany(() => BoardColumn, boardColumn => boardColumn.id)
+
+    @OneToMany(() => BoardColumn, boardColumn => boardColumn.board, {
+        onDelete: "CASCADE",
+        cascade: true,
+    })
     columns: BoardColumn[];
-    
+
 }
