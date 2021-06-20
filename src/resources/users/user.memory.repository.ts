@@ -1,5 +1,7 @@
+import { Task } from '../../entities/Task';
 import { User } from '../../entities/User';
 import { ErrorHandler } from '../../helpers/ErrorHandler';
+// import * as tasksService from '../tasks/task.service';
 
 /**
  * Get all users from db
@@ -60,7 +62,19 @@ const updateUser = async (id: string, updatedUser: User): Promise<User | undefin
  * @returns {Promise<void>}
  */
 const deleteUser = async (id: string): Promise<void> => {
-  await User.delete({ id });
+  const user = await getById(id);
+
+  if (!user) {
+    throw new ErrorHandler(404, 'User not found');
+  }
+
+  const allTasks = await Task.find({ where: { userId: id } });
+  for await (const task of allTasks) {
+    task.userId = null;
+    await task.save();
+  }
+
+  await user.remove();
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };

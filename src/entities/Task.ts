@@ -1,41 +1,52 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinColumn, OneToOne } from "typeorm";
-import { Board } from "./Board";
-import { BoardColumn } from "./BoardColumn";
-import { User } from "./User";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+// import { Board } from "./Board";
+// import { BoardColumn } from "./BoardColumn";
+// import { User } from "./User";
 
 @Entity()
 export class Task extends BaseEntity {
 
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column({ default: "TITLE" })
-    title: string;
+  @Column({ default: "TITLE" })
+  title: string;
 
-    @Column({ default: 0 })
-    order: number;
+  @Column({ default: 0 })
+  order: number;
 
-    @Column({ default: "DESCRIPTION" })
-    description: string;
+  @Column({ default: "DESCRIPTION" })
+  description: string;
 
-    @OneToOne(() => User, {
-      onDelete: "SET NULL",
-      eager: true,
-    })
-    @JoinColumn()
-    user: User;
+  @Column({ type: 'text', nullable: true })
+  userId: string | null;
 
-    @OneToOne(() => Board, {
-      onDelete: "CASCADE",
-      eager: true,
-    })
-    @JoinColumn()
-    board: User;
+  @Column({ type: 'text', nullable: true })
+  boardId: string | null;
 
-    @OneToOne(() => BoardColumn, {
-      eager: true,
-    })
-    @JoinColumn()
-    column: BoardColumn;
+  @Column({ type: 'text', nullable: true })
+  columnId: string | null;
 
 }
+
+// interface ITask {
+//   id: string,
+//   title: string,
+//   description: string,
+//   order: number,
+//   boardId: string | null,
+//   columnId: string | null,
+//   userId: string | null,
+// }
+
+// interface ITaskBody {
+//   id: string,
+//   title: string,
+//   description: string,
+//   order: number,
+//   board: string | null,
+//   column: string | null,
+//   user: string | null,
+// }
+
+// export { ITask, ITaskBody };

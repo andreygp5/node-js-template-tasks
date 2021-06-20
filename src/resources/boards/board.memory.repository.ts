@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import { Board } from '../../entities/Board';
 import { BoardColumn } from '../../entities/BoardColumn';
+import { Task } from '../../entities/Task';
 import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 import * as columnsService from '../columns/column.service';
@@ -107,6 +108,12 @@ const deleteBoard = async (id: string): Promise<void> => {
   }
 
   await columnsService.deleteColumns(board.columns);
+
+  const allTasks = await Task.find({ where: { boardId: id } });
+  for await (const task of allTasks) {
+    task.boardId = null;
+    await task.save();
+  }
 
   await board.remove();
 };

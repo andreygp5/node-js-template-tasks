@@ -1,9 +1,5 @@
 /* eslint-disable no-shadow */
-import Task from './task.model';
-
-import { TASKS } from '../../db/database';
-import { ITask } from './task';
-
+import { Task } from '../../entities/Task';
 import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 /**
@@ -13,8 +9,10 @@ import { ErrorHandler } from '../../helpers/ErrorHandler';
  *
  * @returns {Promise<Array<import('./task.model.js').TaskModel>>} Tasks array
  */
-const getAllFromBoard = async (boardId: string): Promise<ITask[]> =>
-  TASKS.filter((task) => task.boardId === boardId);
+const getAllFromBoard = async (boardId: string): Promise<Task[]> => {
+  const tasks = await Task.find({ where: { boardId } })
+  return tasks;
+}
 
 /**
  * Get task from board by id
@@ -25,11 +23,15 @@ const getAllFromBoard = async (boardId: string): Promise<ITask[]> =>
  *
  * @returns {Promise<import('./task.model.js').TaskModel | undefined>} Task instance or undefined
  */
-const getByIdFromBoard = async (
-  boardId: string,
-  taskId: string
-): Promise<ITask | undefined> =>
-  TASKS.find((task) => task.boardId === boardId && task.id === taskId);
+const getByIdFromBoard = async (boardId: string, taskId: string): Promise<Task | undefined> => {
+  const task = await Task.findOne({ where: { id: taskId, boardId } })
+
+  if (!task) {
+    throw new ErrorHandler(404, 'Task not found');
+  }
+
+  return task;
+}
 
 /**
  * Creates task on board
@@ -39,13 +41,11 @@ const getByIdFromBoard = async (
  *
  * @returns {Promise<import('./task.model.js').TaskModel>} Created task instance
  */
-const createTaskOnBoard = async (
-  boardId: string,
-  task: ITask
-): Promise<ITask> => {
-  const newTask = new Task({ ...task, boardId });
+const createTaskOnBoard = async (boardId: string, task: Task): Promise<Task> => {
+  const newTask = await Task.create({ ...task, boardId });
 
-  TASKS.push(newTask);
+  await newTask.save();
+
   return newTask;
 };
 
@@ -61,10 +61,11 @@ const createTaskOnBoard = async (
 const updateTaskOnBoard = async (
   boardId: string,
   taskId: string,
-  updatedTask: Omit<ITask, 'id'>
-): Promise<ITask> => {
+  updatedTask: Omit<Task, 'id'>
+): Promise<Task> => {
   const task = await getByIdFromBoard(boardId, taskId);
-  if (!task) throw new ErrorHandler(400, 'Id is not valid');
+
+  if (!task) throw new ErrorHandler(404, 'Id is not valid');
 
   const {
     title,
@@ -74,12 +75,15 @@ const updateTaskOnBoard = async (
     boardId: updatedBoardId,
     columnId,
   } = updatedTask;
+
   task.title = title;
   task.order = order;
   task.description = description;
   task.userId = userId;
   task.boardId = updatedBoardId;
   task.columnId = columnId;
+
+  await task.save();
 
   return task;
 };
@@ -96,44 +100,13 @@ const deleteTaskFromBoard = async (
   boardId: string,
   taskId: string
 ): Promise<void> => {
-  const taskIndex = TASKS.findIndex(
-    (task) => task.boardId === boardId && task.id === taskId
-  );
+  const task = await getByIdFromBoard(boardId, taskId);
 
-  if (taskIndex === -1) {
-    throw new ErrorHandler();
+  if (!task) {
+    throw new ErrorHandler(404, 'Task not found');
   }
 
-  TASKS.splice(taskIndex, 1);
-};
-
-/**
- * Update tasks where the user is assigned, when user is deleted
- *
- * @param {number} userId Task assigner id
- *
- * @returns {Promise<void>}
- */
-const updateTasksWhereUserAssignee = (userId: string): void => {
-  TASKS.forEach((task) => {
-    const taskRef = task;
-    if (taskRef.userId === userId) taskRef.userId = null;
-  });
-};
-
-/**
- * Deletes tasks, when board, where tasks are stored, - deleted
- *
- * @param {number} boardId Board id, where task is stored
- *
- * @returns {Promise<void>}
- */
-const deleteTasksOnBoardDelete = (boardId: string): void => {
-  const tasksIdsToDelete: string[] = [];
-  TASKS.forEach((task) => {
-    if (task.boardId === boardId) tasksIdsToDelete.push(task.id);
-  });
-  tasksIdsToDelete.forEach((taskId) => deleteTaskFromBoard(boardId, taskId));
+  await task.remove();
 };
 
 export {
@@ -142,6 +115,4 @@ export {
   createTaskOnBoard,
   updateTaskOnBoard,
   deleteTaskFromBoard,
-  updateTasksWhereUserAssignee,
-  deleteTasksOnBoardDelete,
 };

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { ITask } from './task';
+import { Task } from '../../entities/Task';
 import * as tasksService from './task.service';
 
 import { ErrorHandler } from '../../helpers/ErrorHandler';
@@ -10,6 +10,7 @@ const getTasks = async (
   res: express.Response
 ): Promise<void> => {
   const { boardId } = req.params;
+
   if (!boardId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
@@ -49,12 +50,12 @@ const createTask = async (
     throw new ErrorHandler(400, 'Id is not valid');
   }
 
-  const task: ITask = req.body;
+  const task: Task = req.body;
 
   try {
     const createdTask = await tasksService.createTaskOnBoard(boardId, task);
     if (!createdTask) {
-      throw new ErrorHandler();
+      throw new ErrorHandler(400, 'Bad request');
     }
     res.status(201).json(createdTask);
   } catch (error) {
@@ -72,7 +73,7 @@ const updateTask = async (
     throw new ErrorHandler(400, 'Id is not valid');
   }
 
-  const task: Omit<ITask, 'id'> = req.body;
+  const task: Omit<Task, 'id'> = req.body;
 
   try {
     const updatedTask = await tasksService.updateTaskOnBoard(
@@ -98,7 +99,7 @@ const deleteTask = async (
   if (!boardId || !taskId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
-  
+
   try {
     await tasksService.deleteTaskFromBoard(boardId, taskId);
     res.status(204).send('The task has been deleted');

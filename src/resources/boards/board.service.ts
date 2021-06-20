@@ -30,8 +30,6 @@ const getById = (id: string): Promise<Board | undefined> =>
  */
 const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
   const createdBoard = await boardsRepo.createBoard(board);
-  console.log(`${createdBoard  }In service`);
-  
   return createdBoard;
 }
 

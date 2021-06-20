@@ -8,7 +8,7 @@ import "reflect-metadata";
 import { SwaggerDefinition } from 'swagger-jsdoc';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
-// import taskRouter from './resources/tasks/task.router';
+import taskRouter from './resources/tasks/task.router';
 
 import { logger, uncaughtLogger, unhandledLogger } from './middlewares/loggers';
 import { errorMiddleware } from './middlewares/error';
@@ -36,7 +36,7 @@ app.use(logger);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
-// app.use('/boards/:boardId', taskRouter);
+app.use('/boards/:boardId', taskRouter);
 
 app.use(
   (
