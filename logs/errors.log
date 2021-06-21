@@ -67,3 +67,10 @@
 [500] : "Task not found" from [GET] - /boards/c4d9e415-666b-4925-a232-3310624c987d/tasks/b64e2666-e25e-42d5-afd4-990e624e5864 at 8:37:35 PM
 [500] : "Task not found" from [GET] - /boards/c4d9e415-666b-4925-a232-3310624c987d/tasks/fa2acb37-4f8c-4b0c-8f18-a817e380fdc7 at 8:37:35 PM
 [500] : "Task not found" from [GET] - /boards/2b148c2b-8560-4ec3-bd79-dce713bce39d/tasks/afc96b01-3e02-4ff0-b65f-8d9232cdc0c7 at 8:37:35 PM
+[500] : "Board not found" from [GET] - /boards/ca4f64be-0f0c-4f86-b358-6fbcda3e8ade at 11:06:57 AM
+[500] : "Task not found" from [GET] - /boards/79f6ea68-476e-4483-9767-c46774404589/tasks/7a2860c9-f797-4e5c-bb74-16e0597756b4 at 11:06:57 AM
+[500] : "Task not found" from [GET] - /boards/79f6ea68-476e-4483-9767-c46774404589/tasks/f910fb79-d0e6-473e-9a9c-015bfa7609b5 at 11:06:57 AM
+[500] : "Task not found" from [GET] - /boards/79f6ea68-476e-4483-9767-c46774404589/tasks/4ae69c98-1869-43f0-984b-1583f687a16e at 11:06:57 AM
+[500] : "Task not found" from [GET] - /boards/79f6ea68-476e-4483-9767-c46774404589/tasks/9e9a5738-86ca-451c-a5fe-172ae21b271f at 11:06:57 AM
+[500] : "Task not found" from [GET] - /boards/79f6ea68-476e-4483-9767-c46774404589/tasks/974849dc-6bbf-43fb-a50b-ad4048367fce at 11:06:57 AM
+[500] : "Task not found" from [GET] - /boards/23eb3819-98ff-4c30-880a-edeb1a9670d3/tasks/f3ba2c66-03b6-4279-8e1f-ef9df3adde18 at 11:06:58 AM

@@ -22,15 +22,13 @@ const getUserById = async (
   next: express.NextFunction
 ): Promise<void> => {
   const { userId } = req.params;
+
   if (!userId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
 
   try {
     const desiredUser = await usersService.getById(userId);
-    if (!desiredUser) {
-      throw new ErrorHandler(400, 'Id is not valid');
-    }
     res.status(200).json(User.toResponse(desiredUser));
   } catch (error) {
     next(error);

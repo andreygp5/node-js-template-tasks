@@ -10,14 +10,13 @@ const getAll = (): Promise<User[]> => usersRepo.getAll();
 
 /**
  * Get user by id from db
- * If user with this id doesn't exist - returns undefined
+ * If user with this id doesn't exist - throw new ErrorHandler(404, 'User not found');
  *
  * @param {number} id Desired user id
  *
- * @returns {Promise<import('./user.model.js').UserModel|undefined>} User or undefined
+ * @returns {Promise<import('./user.model.js').UserModel>} User
  */
-const getById = (id: string): Promise<User | undefined> =>
-  usersRepo.getById(id);
+const getById = (id: string): Promise<User> => usersRepo.getById(id);
 
 /**
  * Creates user in db with info from request
