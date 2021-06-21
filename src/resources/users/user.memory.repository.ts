@@ -58,6 +58,20 @@ const checkPasswordsMatch = async (userId: string, passwordToCompare: string): P
   return isSame;
 };
 
+const getUserByLoginPassword = async (login: string, password: string): Promise<User | undefined> => {
+  const user = await User.findOne({ where: { login } });
+  if (!user) {
+    return undefined;
+  }
+
+  const isCorrectPassword = await checkPasswordsMatch(user.id, password);
+  if (!isCorrectPassword) {
+    return undefined;
+  }
+
+  return user;
+};
+
 /**
  * Updates user in db with info from request
  *
@@ -103,4 +117,12 @@ const deleteUser = async (id: string): Promise<void> => {
   await user.remove();
 };
 
-export { getAll, getById, createUser, updateUser, deleteUser };
+export {
+  getAll,
+  getById,
+  createUser,
+  updateUser,
+  deleteUser,
+  checkPasswordsMatch,
+  getUserByLoginPassword
+};

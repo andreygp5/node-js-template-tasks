@@ -41,6 +41,7 @@
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
     "no-restricted-syntax": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "consistent-return": "off"
   }
 }

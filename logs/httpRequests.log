@@ -1210,3 +1210,8 @@
 [GET] /users : 200 : Body={} : Query={} [16ms]
 [PUT] /users/2e63d8fa-066e-407e-9122-8a488c84523d : 200 : Body={"name":"string","login":"string","password":"string"} : Query={} [114ms]
 [PUT] /users/2e63d8fa-066e-407e-9122-8a488c84523d : 200 : Body={"name":"string","login":"string","password":"string1"} : Query={} [116ms]
+[POST] /login : 200 : Body={"login":"string","password":"string"} : Query={} [110ms]
+[POST] /login : 403 : Body={"login":"str3ng","password":"string"} : Query={} [67ms]
+[POST] /login : 200 : Body={"login":"string","password":"string"} : Query={} [85ms]
+[POST] /login : 400 : Body={"s":"string","password":"string"} : Query={} [1ms]
+[POST] /login : 200 : Body={"login":"string","password":"string"} : Query={} [68ms]

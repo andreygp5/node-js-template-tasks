@@ -25,8 +25,15 @@ const getById = (id: string): Promise<User> => usersRepo.getById(id);
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
-const createUser = (user: Omit<User, 'id'>): Promise<User> =>
-  usersRepo.createUser(user);
+const createUser = (user: Omit<User, 'id'>): Promise<User> => usersRepo.createUser(user);
+
+const checkPasswordsMatch = async (userId: string, passwordToCompare: string): Promise<boolean> => {
+  return usersRepo.checkPasswordsMatch(userId, passwordToCompare);
+};
+
+const getUserByLoginPassword = async (login: string, password: string): Promise<User | undefined> => {
+  return usersRepo.getUserByLoginPassword(login, password);
+};
 
 /**
  * Updates user in db with info from request
@@ -48,4 +55,12 @@ const updateUser = (id: string, updatedUser: User): Promise<User | undefined> =>
  */
 const deleteUser = (id: string): Promise<void> => usersRepo.deleteUser(id);
 
-export { getAll, getById, createUser, updateUser, deleteUser };
+export {
+  getAll,
+  getById,
+  createUser,
+  updateUser,
+  deleteUser,
+  checkPasswordsMatch,
+  getUserByLoginPassword
+};
