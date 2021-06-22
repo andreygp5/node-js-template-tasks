@@ -14,15 +14,19 @@ import authRouter from './auth/auth.router';
 
 import { logger, uncaughtLogger, unhandledLogger } from './middlewares/loggers';
 import { errorMiddleware } from './middlewares/error';
+import { validateToken } from './middlewares/validateToken';
 
 import { IErrorHandler } from './helpers/ErrorHandler';
 
 const app: express.Application = express();
+
 const swaggerDocument: SwaggerDefinition = YAML.load(
   path.join(__dirname, '../doc/api.yaml')
 );
 
 app.use(express.json());
+
+app.use(validateToken);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 

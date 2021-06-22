@@ -76,3 +76,5 @@
 [500] : "Task not found" from [GET] - /boards/23eb3819-98ff-4c30-880a-edeb1a9670d3/tasks/f3ba2c66-03b6-4279-8e1f-ef9df3adde18 at 11:06:58 AM
 [500] : "Incorrect password or login" from [POST] - /login at 3:37:12 PM
 [500] : "Body should contain login and password" from [POST] - /login at 3:37:24 PM
+[500] : "Failed on parsing token" from [GET] - /users at 9:18:19 AM
+[500] : "Unexpected end of JSON input" from [GET] - /users at 9:19:34 AM

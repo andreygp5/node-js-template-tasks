@@ -25,3 +25,6 @@ Reason: Error
 Reason: Error
 Reason: Error
 Reason: Error
+Reason: JsonWebTokenError: jwt malformed
+Reason: Error
+Reason: Error
