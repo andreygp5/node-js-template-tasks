@@ -78,3 +78,69 @@
 [500] : "Body should contain login and password" from [POST] - /login at 3:37:24 PM
 [500] : "Failed on parsing token" from [GET] - /users at 9:18:19 AM
 [500] : "Unexpected end of JSON input" from [GET] - /users at 9:19:34 AM
+[500] : "No token" from [GET] - /users at 9:21:28 AM
+[500] : "No token" from [GET] - /boards/12345/tasks at 9:21:28 AM
+[500] : "No token" from [GET] - /boards at 9:21:28 AM
+[500] : "No token" from [GET] - /users/123 at 9:21:28 AM
+[500] : "No token" from [GET] - /boards/12345/tasks/12345 at 9:21:28 AM
+[500] : "No token" from [GET] - /boards/12345 at 9:21:28 AM
+[500] : "No token" from [POST] - /users at 9:21:28 AM
+[500] : "No token" from [POST] - /boards/12345/tasks at 9:21:28 AM
+[500] : "No token" from [POST] - /boards at 9:21:28 AM
+[500] : "No token" from [PUT] - /users/12345 at 9:21:28 AM
+[500] : "No token" from [PUT] - /boards/12345/tasks/12345 at 9:21:28 AM
+[500] : "No token" from [PUT] - /boards/12345 at 9:21:28 AM
+[500] : "No token" from [DELETE] - /users/12345 at 9:21:28 AM
+[500] : "No token" from [DELETE] - /boards/12345/tasks/12345 at 9:21:28 AM
+[500] : "No token" from [DELETE] - /boards/12345 at 9:21:28 AM
+[500] : "Incorrect password or login" from [POST] - /login at 9:21:28 AM
+[500] : "Incorrect password or login" from [POST] - /login at 9:21:28 AM
+[500] : "Incorrect password or login" from [POST] - /login at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [GET] - /users at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards/undefined/tasks at 9:21:28 AM
+[500] : "Failed on parsing token" from [GET] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [GET] - /boards/undefined/tasks at 9:21:28 AM
+[500] : "Failed on parsing token" from [GET] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /users at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [GET] - /boards/undefined/tasks at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /users at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards/undefined/tasks at 9:21:28 AM
+[500] : "Failed on parsing token" from [PUT] - /boards/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /users at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards/undefined/tasks at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [PUT] - /users/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [PUT] - /boards/undefined/tasks/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /boards at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /users at 9:21:28 AM
+[500] : "Failed on parsing token" from [GET] - /boards/undefined/tasks/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [DELETE] - /boards/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [DELETE] - /users/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [DELETE] - /boards/undefined at 9:21:28 AM
+[500] : "Failed on parsing token" from [POST] - /users at 9:21:28 AM
+[500] : "No token" from [GET] - /boards/12345/tasks at 9:41:50 AM
+[500] : "No token" from [GET] - /boards at 9:41:50 AM
+[500] : "No token" from [GET] - /users at 9:41:50 AM
+[500] : "No token" from [GET] - /boards/12345/tasks/12345 at 9:41:50 AM
+[500] : "No token" from [GET] - /boards/12345 at 9:41:50 AM
+[500] : "No token" from [GET] - /users/123 at 9:41:50 AM
+[500] : "No token" from [POST] - /boards/12345/tasks at 9:41:50 AM
+[500] : "No token" from [POST] - /boards at 9:41:50 AM
+[500] : "No token" from [POST] - /users at 9:41:50 AM
+[500] : "No token" from [PUT] - /boards/12345 at 9:41:50 AM
+[500] : "No token" from [PUT] - /boards/12345/tasks/12345 at 9:41:50 AM
+[500] : "No token" from [PUT] - /users/12345 at 9:41:50 AM
+[500] : "No token" from [DELETE] - /boards/12345/tasks/12345 at 9:41:50 AM
+[500] : "No token" from [DELETE] - /boards/12345 at 9:41:50 AM
+[500] : "No token" from [DELETE] - /users/12345 at 9:41:50 AM
+[500] : "Task not found" from [GET] - /boards/16df8590-4cc2-4c54-8bb9-884fff1bbd71/tasks/4416c2a4-2a75-4fc4-a5b4-cb7df66535ba at 9:41:52 AM
+[500] : "Board not found" from [GET] - /boards/bb988aba-377b-49b4-8552-911681d5cfeb at 9:41:52 AM
+[500] : "Task not found" from [GET] - /boards/d0e8ecb9-453e-47eb-8fb4-ba30ca2b2447/tasks/c91a1188-25bf-41f0-ad22-d42bd8064740 at 9:41:52 AM
+[500] : "Task not found" from [GET] - /boards/d0e8ecb9-453e-47eb-8fb4-ba30ca2b2447/tasks/0f5abdaf-3240-46be-986f-43688acf434e at 9:41:52 AM
+[500] : "Task not found" from [GET] - /boards/d0e8ecb9-453e-47eb-8fb4-ba30ca2b2447/tasks/baad9081-e16b-43fa-86d9-4b5622e2d396 at 9:41:52 AM
+[500] : "Task not found" from [GET] - /boards/d0e8ecb9-453e-47eb-8fb4-ba30ca2b2447/tasks/0e3afb05-28c2-424c-af63-4c7ce5295fb7 at 9:41:52 AM
+[500] : "Task not found" from [GET] - /boards/d0e8ecb9-453e-47eb-8fb4-ba30ca2b2447/tasks/b54dc7ad-17c2-4a1c-9f0b-d1b9a0d7147c at 9:41:52 AM
