@@ -3,11 +3,13 @@ import { Request, Response, NextFunction } from "express";
 import * as authService from '../auth/auth.service';
 import { ErrorHandler } from "../helpers/ErrorHandler";
 
-const nonSecureRoutes = ['/', '/login', '/doc/'];
+const nonSecureRoutes = ['/', '/login'];
 
 const validateToken = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   try {
-    if (nonSecureRoutes.includes(req.path) || req.path.includes('doc')) {
+    // Extra check on /doc route needed, because swagger makes a lot of requests
+    // with /doc (/doc/favicon ...)
+    if (nonSecureRoutes.includes(req.path) || req.path.startsWith('/doc')) {
       return next();
     }
 

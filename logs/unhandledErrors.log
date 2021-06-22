@@ -28,3 +28,4 @@ Reason: Error
 Reason: JsonWebTokenError: jwt malformed
 Reason: Error
 Reason: Error
+Reason: Error: DB Connection failed - Error: connect ECONNREFUSED 192.168.160.2:5432
