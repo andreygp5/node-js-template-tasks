@@ -1,4 +1,4 @@
-import { IBoard } from './board';
+import { Board } from '../../entities/Board';
 import * as boardsRepo from './board.memory.repository';
 
 /**
@@ -7,7 +7,7 @@ import * as boardsRepo from './board.memory.repository';
  * @returns {Array<Promise<import('./board.model.js').BoardModel>>}
  * Boards array
  */
-const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
+const getAll = (): Promise<Board[]> => boardsRepo.getAll();
 
 /**
  * Get board by id from db
@@ -17,7 +17,7 @@ const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
  *
  * @returns {Promise<import('./board.model.js').BoardModel|undefined>} Board or undefined
  */
-const getById = (id: string): Promise<IBoard | undefined> =>
+const getById = (id: string): Promise<Board | undefined> =>
   boardsRepo.getById(id);
 
 /**
@@ -28,8 +28,10 @@ const getById = (id: string): Promise<IBoard | undefined> =>
  *
  * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
  */
-const createBoard = (board: Omit<IBoard, 'id'>): Promise<IBoard> =>
-  boardsRepo.createBoard(board);
+const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
+  const createdBoard = await boardsRepo.createBoard(board);
+  return createdBoard;
+}
 
 /**
  * Updates board in db with info from request
@@ -42,8 +44,8 @@ const createBoard = (board: Omit<IBoard, 'id'>): Promise<IBoard> =>
  */
 const updateBoard = (
   id: string,
-  updatedBoard: Omit<IBoard, 'id'>
-): Promise<IBoard> => boardsRepo.updateBoard(id, updatedBoard);
+  updatedBoard: Omit<Board, 'id'>
+): Promise<Board> => boardsRepo.updateBoard(id, updatedBoard);
 
 /**
  * Delete board with specified id from db

@@ -1,4 +1,4 @@
-import { ITask } from './task';
+import { Task } from '../../entities/Task';
 import * as tasksRepo from './task.memory.repository';
 
 /**
@@ -8,7 +8,7 @@ import * as tasksRepo from './task.memory.repository';
  *
  * @returns {Promise<Array<import('./task.model.js').TaskModel>>} Tasks array
  */
-const getAllFromBoard = (boardId: string): Promise<ITask[]> =>
+const getAllFromBoard = (boardId: string): Promise<Task[]> =>
   tasksRepo.getAllFromBoard(boardId);
 
 /**
@@ -23,7 +23,7 @@ const getAllFromBoard = (boardId: string): Promise<ITask[]> =>
 const getByIdFromBoard = (
   boardId: string,
   taskId: string
-): Promise<ITask | undefined> => tasksRepo.getByIdFromBoard(boardId, taskId);
+): Promise<Task | undefined> => tasksRepo.getByIdFromBoard(boardId, taskId);
 
 /**
  * Creates task on board
@@ -33,7 +33,7 @@ const getByIdFromBoard = (
  *
  * @returns {Promise<import('./task.model.js').TaskModel>} Created task instance
  */
-const createTaskOnBoard = (boardId: string, task: ITask): Promise<ITask> =>
+const createTaskOnBoard = (boardId: string, task: Task): Promise<Task> =>
   tasksRepo.createTaskOnBoard(boardId, task);
 
 /**
@@ -48,8 +48,8 @@ const createTaskOnBoard = (boardId: string, task: ITask): Promise<ITask> =>
 const updateTaskOnBoard = (
   boardId: string,
   taskId: string,
-  task: Omit<ITask, 'id'>
-): Promise<ITask> => tasksRepo.updateTaskOnBoard(boardId, taskId, task);
+  task: Omit<Task, 'id'>
+): Promise<Task> => tasksRepo.updateTaskOnBoard(boardId, taskId, task);
 
 /**
  * Deletes task by id
@@ -62,32 +62,10 @@ const updateTaskOnBoard = (
 const deleteTaskFromBoard = (boardId: string, taskId: string): Promise<void> =>
   tasksRepo.deleteTaskFromBoard(boardId, taskId);
 
-/**
- * Update tasks where the user is assigned, when user is deleted
- *
- * @param {number} userId Task assigner id
- *
- * @returns {Promise<void>}
- */
-const updateTasksWhereUserAssignee = (userId: string): void =>
-  tasksRepo.updateTasksWhereUserAssignee(userId);
-
-/**
- * Deletes tasks, when board, where tasks are stored, - deleted
- *
- * @param {number} boardId Board id, where task is stored
- *
- * @returns {Promise<void>}
- */
-const deleteTasksOnBoardDelete = (boardId: string): void =>
-  tasksRepo.deleteTasksOnBoardDelete(boardId);
-
 export {
   getAllFromBoard,
   getByIdFromBoard,
   createTaskOnBoard,
   updateTaskOnBoard,
   deleteTaskFromBoard,
-  updateTasksWhereUserAssignee,
-  deleteTasksOnBoardDelete,
 };

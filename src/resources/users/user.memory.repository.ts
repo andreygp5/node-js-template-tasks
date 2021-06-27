@@ -1,18 +1,14 @@
-import User from './user.model';
-import { USERS } from '../../db/database';
-
-import { updateTasksWhereUserAssignee } from '../tasks/task.service';
-
-import { IUser } from './user';
-
+import { Task } from '../../entities/Task';
+import { User } from '../../entities/User';
 import { ErrorHandler } from '../../helpers/ErrorHandler';
+// import * as tasksService from '../tasks/task.service';
 
 /**
  * Get all users from db
  *
  * @returns {Promise<Array<import('./user.model.js').UserModel>>} Users array
  */
-const getAll = async (): Promise<IUser[]> => USERS;
+const getAll = async (): Promise<User[]> => User.find();
 
 /**
  * Get user by id from db
@@ -22,8 +18,10 @@ const getAll = async (): Promise<IUser[]> => USERS;
  *
  * @returns {Promise<import('./user.model.js').UserModel|undefined>} User or undefined
  */
-const getById = async (id: string): Promise<IUser | undefined> =>
-  USERS.find((user) => user.id === id);
+const getById = async (id: string): Promise<User | undefined> => {
+  const user = await User.findOne({ where: { id } });
+  return user;
+}
 
 /**
  * Creates user in db with info from request
@@ -32,10 +30,11 @@ const getById = async (id: string): Promise<IUser | undefined> =>
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
-const createUser = async (user: Omit<IUser, 'id'>): Promise<IUser> => {
-  const newUser = new User({ ...user });
-  USERS.push(newUser);
-  return newUser;
+const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
+  const newUser = await User.create(user);
+  await newUser.save();
+
+  return User.findOneOrFail(newUser);
 };
 
 /**
@@ -46,17 +45,14 @@ const createUser = async (user: Omit<IUser, 'id'>): Promise<IUser> => {
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Updated user instance
  */
-const updateUser = async (id: string, updatedUser: IUser): Promise<IUser> => {
+const updateUser = async (id: string, updatedUser: User): Promise<User | undefined> => {
   const user = await getById(id);
-  if (!user) throw new Error('No user with this id');
+  if (!user) {
+    throw new ErrorHandler(404, "User not found");
+  }
+  await User.update(id, updatedUser);
 
-  const { name, login, password } = updatedUser;
-
-  user.name = name;
-  user.login = login;
-  user.password = password;
-
-  return user;
+  return getById(id);
 };
 
 /**
@@ -66,13 +62,19 @@ const updateUser = async (id: string, updatedUser: IUser): Promise<IUser> => {
  * @returns {Promise<void>}
  */
 const deleteUser = async (id: string): Promise<void> => {
-  const userIndex = USERS.findIndex((user) => user.id === id);
-  if (userIndex === -1) {
-    throw new ErrorHandler();
+  const user = await getById(id);
+
+  if (!user) {
+    throw new ErrorHandler(404, 'User not found');
   }
 
-  USERS.splice(userIndex, 1);
-  updateTasksWhereUserAssignee(id);
+  const allTasks = await Task.find({ where: { userId: id } });
+  for await (const task of allTasks) {
+    task.userId = null;
+    await task.save();
+  }
+
+  await user.remove();
 };
 
 export { getAll, getById, createUser, updateUser, deleteUser };

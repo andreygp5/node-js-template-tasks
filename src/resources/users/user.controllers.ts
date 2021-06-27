@@ -1,10 +1,11 @@
 import express from 'express';
-import { IUser } from './user';
+// import { IUser } from './user';
 
-import User from './user.model';
+// import { User } from '../../entities/User';
 import * as usersService from './user.service';
 
 import { ErrorHandler } from '../../helpers/ErrorHandler';
+import { User } from '../../entities/User';
 
 const getUsers = async (
   _req: express.Request,
@@ -41,7 +42,7 @@ const createUser = async (
   res: express.Response,
   next: express.NextFunction
 ): Promise<void> => {
-  const user: Omit<IUser, 'id'> = req.body;
+  const user: Omit<User, 'id'> = req.body;
 
   try {
     const createdUser = await usersService.createUser(user);
@@ -49,7 +50,7 @@ const createUser = async (
       throw new ErrorHandler();
     }
     res.status(201).json(User.toResponse(createdUser));
-  } catch (error){
+  } catch (error) {
     next(error);
   }
 };
@@ -63,7 +64,7 @@ const updateUser = async (
   if (!userId) {
     throw new ErrorHandler(400, 'Id is not valid');
   }
-  const user: IUser = req.body;
+  const user: User = req.body;
 
   try {
     const updatedUser = await usersService.updateUser(userId, user);

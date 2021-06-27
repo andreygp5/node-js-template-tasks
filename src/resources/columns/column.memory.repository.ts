@@ -1,7 +1,7 @@
-import { IBoard } from '../boards/board';
-import { IColumn } from './column';
-
-import Column from './column.model';
+import validate from 'uuid-validate';
+import { Board } from '../../entities/Board';
+import { BoardColumn } from '../../entities/BoardColumn';
+import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 /**
  * Creates column
@@ -12,8 +12,13 @@ import Column from './column.model';
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
-const createColumn = async (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
-  new Column({ ...column });
+const createColumn = async (column: Omit<BoardColumn, 'id'>, _board: Board): Promise<BoardColumn> => {
+  const newColumn = await BoardColumn.create(column);
+  // newColumn.board = board;
+  // console.log(JSON.stringify(newColumn) + 'createColumn');
+  await newColumn.save();
+  return newColumn;
+}
 
 /**
  * Updates column
@@ -26,34 +31,18 @@ const createColumn = async (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
  * Updated column instance
  */
 const updateFields = async (
-  newFields: Omit<IColumn, 'id'>,
-  column: IColumn
-): Promise<IColumn> => {
+  newFields: Omit<BoardColumn, 'id'>,
+  column: BoardColumn
+): Promise<BoardColumn> => {
   const { title, order } = newFields;
-  const newColumn = column;
 
-  newColumn.title = title;
-  newColumn.order = order;
+  column.title = title;
+  column.order = order;
 
-  return newColumn;
+  await column.save();
+
+  return column;
 };
-
-/**
- * Get column by id from db
- * If column doesn't exist - returns undefined
- *
- * @param {number} columnId Desired column id
- * @param {import('../boards/board.model.js').BoardModel} board
- * Board instance, where the column is being found
- *
- * @returns {Promise<import('./column.model.js').ColumnModel | undefined>}
- * Column or undefined
- */
-const getColumnFromBoardById = async (
-  columnId: string,
-  board: IBoard
-): Promise<IColumn | undefined> =>
-  board.columns.find((column) => column.id === columnId);
 
 /**
  * Updates columns on board or creates new columns if column doesn't exist
@@ -65,34 +54,52 @@ const getColumnFromBoardById = async (
  *
  * @returns {Promise<void>}
  */
-const updateColumnsInBoard = async (
-  updatedColumns: IColumn[],
-  board: IBoard
-): Promise<void> => {
-  await updatedColumns.forEach(async (updatedColumn) => {
-    const columnInBoard = await getColumnFromBoardById(updatedColumn.id, board);
-    if (columnInBoard) {
-      updateFields(
-        {
-          title: updatedColumn.title,
-          order: updatedColumn.order,
-        },
-        columnInBoard
-      );
-    } else {
-      board.columns.push(
-        await createColumn({
-          title: updatedColumn.title,
-          order: updatedColumn.order,
-        })
-      );
-    }
-  });
+const updateColumnsInBoard = async (updatedColumns: BoardColumn[], board: Board): Promise<BoardColumn[]> => {
+  try {
+    return updatedColumns.reduce(async (columns, updatedColumn) => {
+      const columnsCopy = await columns;
+
+      if (!validate(updatedColumn.id, 4)) {
+        const { title, order } = updatedColumn;
+        const newColumn = await BoardColumn.create({ title, order });
+        newColumn.board = board;
+        await newColumn.save();
+        columnsCopy.push(newColumn);
+
+        console.log(`${JSON.stringify(columnsCopy)} -- ID IS NOT VALID !!!!!!!!!`);
+
+        return columnsCopy;
+      }
+
+      const columnToUpdate = await BoardColumn.findOne({ where: { id: updatedColumn.id } });
+
+      if (!columnToUpdate) {
+        const newColumn = await BoardColumn.create(updatedColumn);
+        newColumn.board = board;
+        await newColumn.save();
+        columnsCopy.push(newColumn);
+
+        return columnsCopy;
+      }
+
+      await updateFields(updatedColumn, columnToUpdate);
+
+      return columnsCopy;
+    }, Promise.resolve(<Array<BoardColumn>>[]));
+  } catch (error) {
+    throw new ErrorHandler(400, error)
+  }
 };
+
+const deleteColumns = async (columns: BoardColumn[]): Promise<void> => {
+  for await (const column of columns) {
+    await column.remove();
+  }
+}
 
 export {
   createColumn,
   updateFields,
-  getColumnFromBoardById,
   updateColumnsInBoard,
+  deleteColumns,
 };

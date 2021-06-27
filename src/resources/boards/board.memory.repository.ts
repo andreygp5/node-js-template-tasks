@@ -1,13 +1,10 @@
 /* eslint-disable no-shadow */
-import Board from './board.model';
-
-import { BOARDS } from '../../db/database';
+import { Board } from '../../entities/Board';
+import { BoardColumn } from '../../entities/BoardColumn';
+import { Task } from '../../entities/Task';
+import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 import * as columnsService from '../columns/column.service';
-import { deleteTasksOnBoardDelete } from '../tasks/task.service';
-import { IBoard } from './board';
-
-import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 /**
  * Get all boards from db
@@ -15,7 +12,10 @@ import { ErrorHandler } from '../../helpers/ErrorHandler';
  * @returns {Promise<Array<import('./board.model.js').BoardModel>>}
  * Boards array
  */
-const getAll = async (): Promise<IBoard[]> => BOARDS;
+const getAll = async (): Promise<Board[]> => {
+  const boards = await Board.find({ relations: ['columns'] })
+  return boards;
+};
 
 /**
  * Get board by id from db
@@ -25,8 +25,15 @@ const getAll = async (): Promise<IBoard[]> => BOARDS;
  *
  * @returns {Promise<import('./board.model.js').BoardModel|undefined>} Board or undefined
  */
-const getById = async (id: string): Promise<IBoard | undefined> =>
-  BOARDS.find((board: IBoard) => board.id === id);
+const getById = async (id: string): Promise<Board | undefined> => {
+  const board = await Board.findOne({ where: { id }, relations: ['columns'] });
+
+  if (!board) {
+    throw new ErrorHandler(404, 'Board not found');
+  }
+
+  return board;
+}
 
 /**
  * Creates board in db with info from request
@@ -36,16 +43,29 @@ const getById = async (id: string): Promise<IBoard | undefined> =>
  *
  * @returns {Promise<import('./board.model.js').BoardModel>} Created board instance
  */
-const createBoard = async (board: Omit<IBoard, 'id'>): Promise<IBoard> => {
-  const { columns, title } = board;
-  const newBoard = new Board({ title });
+const createBoard = async (board: Omit<Board, 'id'>): Promise<Board> => {
+  try {
+    const { columns, title } = board;
 
-  await columns.forEach(async (column) => {
-    newBoard.columns.push(await columnsService.createColumn(column));
-  });
+    const newBoard = Board.create();
 
-  BOARDS.push(newBoard);
-  return newBoard;
+    const columnsList: BoardColumn[] = [];
+
+    for await (const column of columns) {
+      const createdColumn = await columnsService.createColumn(column, newBoard);
+      columnsList.push(createdColumn);
+    }
+
+    newBoard.title = title;
+    newBoard.columns = columnsList;
+
+    await newBoard.save();
+
+    return newBoard;
+  } catch (error) {
+    throw new ErrorHandler(400, error)
+  }
+
 };
 
 /**
@@ -57,17 +77,18 @@ const createBoard = async (board: Omit<IBoard, 'id'>): Promise<IBoard> => {
  *
  * @returns {Promise<import('./board.model.js').BoardModel>} Updated board instance
  */
-const updateBoard = async (
-  id: string,
-  updatedBoard: Omit<IBoard, 'id'>
-): Promise<IBoard> => {
+const updateBoard = async (id: string, updatedBoard: Omit<Board, 'id'>): Promise<Board> => {
   const board = await getById(id);
-  if (!board) throw new Error('Id is not valid');
 
-  const { title, columns: updatedColumns } = updatedBoard;
+  if (!board) {
+    throw new ErrorHandler(404, 'Id is not valid');
+  }
 
-  await columnsService.updateColumnsInBoard(updatedColumns, board);
+  const { title, columns } = updatedBoard;
+  await columnsService.updateColumnsInBoard(columns, board);
+
   board.title = title;
+  await board.save();
 
   return board;
 };
@@ -80,13 +101,21 @@ const updateBoard = async (
  * @returns {Promise<void>}
  */
 const deleteBoard = async (id: string): Promise<void> => {
-  const boardIndex = BOARDS.findIndex((board) => board.id === id);
-  if (boardIndex === -1) {
-    throw new ErrorHandler();
+  const board = await getById(id);
+
+  if (!board) {
+    throw new ErrorHandler(404, 'Board not found');
   }
 
-  BOARDS.splice(boardIndex, 1);
-  deleteTasksOnBoardDelete(id);
+  await columnsService.deleteColumns(board.columns);
+
+  const allTasks = await Task.find({ where: { boardId: id } });
+  for await (const task of allTasks) {
+    task.boardId = null;
+    await task.save();
+  }
+
+  await board.remove();
 };
 
 export { getAll, getById, createBoard, updateBoard, deleteBoard };

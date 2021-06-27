@@ -4,9 +4,9 @@ import { finished } from 'stream';
 import fs from 'fs';
 import path from 'path';
 
-import { IErrorHandler } from '../helpers/ErrorHandler';
+import { ErrorHandler, IErrorHandler } from '../helpers/ErrorHandler';
 
-const logToFile = (fileName: string, logStr: string, isSync = false) : void => {
+const logToFile = (fileName: string, logStr: string, isSync = false): void => {
   const filePath = path.resolve(`logs/${fileName}.log`);
   if (isSync) {
     fs.writeFileSync(
@@ -46,8 +46,15 @@ const logger = (
   });
 };
 
-const errorLogger = (err: IErrorHandler, url: string, method: string): void => {
-  const { statusCode, msg } = err;
+const errorLogger = (err: IErrorHandler | Error, url: string, method: string): void => {
+  const statusCode = 500;
+  let msg;
+
+  if (err instanceof ErrorHandler) {
+    msg = err.msg;
+  } else {
+    msg = err;
+  }
 
   const logStr = `[${statusCode}] : ${JSON.stringify(msg)} from [${method}] - ${url} at ${new Date().toLocaleTimeString()}\n`;
   process.stdout.write(logStr);
@@ -70,7 +77,7 @@ const unhandledLogger = (reason: string): void => {
 
   process.stdout.write(logStr);
   logToFile('unhandledErrors', logStr, true);
-  
+
   process.exit(1);
 };
 

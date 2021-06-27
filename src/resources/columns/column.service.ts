@@ -1,5 +1,5 @@
-import { IBoard } from '../boards/board';
-import { IColumn } from './column';
+import { Board } from '../../entities/Board';
+import { BoardColumn } from '../../entities/BoardColumn';
 
 import * as columnsRepo from './column.memory.repository';
 
@@ -12,8 +12,8 @@ import * as columnsRepo from './column.memory.repository';
  * @returns {Promise<import('./column.model.js').ColumnModel>}
  * Created column instance
  */
-const createColumn = (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
-  columnsRepo.createColumn(column);
+const createColumn = (column: Omit<BoardColumn, 'id'>, board: Board): Promise<BoardColumn> =>
+  columnsRepo.createColumn(column, board);
 
 /**
  * Updates column
@@ -26,26 +26,9 @@ const createColumn = (column: Omit<IColumn, 'id'>): Promise<IColumn> =>
  * Updated column instance
  */
 const updateFields = (
-  newFields: Omit<IColumn, 'id'>,
-  column: IColumn
-): Promise<IColumn> => columnsRepo.updateFields(newFields, column);
-
-/**
- * Get column by id from db
- * If column doesn't exist - returns undefined
- *
- * @param {number} columnId Desired column id
- * @param {import('../boards/board.model.js').BoardModel} board
- * Board instance, where the column is being found
- *
- * @returns {Promise<import('./column.model.js').ColumnModel | undefined>}
- * Column or undefined
- */
-const getColumnFromBoardById = (
-  columnId: string,
-  board: IBoard
-): Promise<IColumn | undefined> =>
-  columnsRepo.getColumnFromBoardById(columnId, board);
+  newFields: Omit<BoardColumn, 'id'>,
+  column: BoardColumn
+): Promise<BoardColumn> => columnsRepo.updateFields(newFields, column);
 
 /**
  * Updates columns on board or creates new columns if column doesn't exist
@@ -57,14 +40,14 @@ const getColumnFromBoardById = (
  *
  * @returns {Promise<void>}
  */
-const updateColumnsInBoard = (
-  updatedColumns: IColumn[],
-  board: IBoard
-): Promise<void> => columnsRepo.updateColumnsInBoard(updatedColumns, board);
+const updateColumnsInBoard = (updatedColumns: BoardColumn[], board: Board): Promise<BoardColumn[]> =>
+  columnsRepo.updateColumnsInBoard(updatedColumns, board);
+
+const deleteColumns = async (columns: BoardColumn[]): Promise<void> => columnsRepo.deleteColumns(columns);
 
 export {
   createColumn,
   updateFields,
-  getColumnFromBoardById,
   updateColumnsInBoard,
+  deleteColumns,
 };

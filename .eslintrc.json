@@ -37,6 +37,10 @@
     "dot-notation": "off",
     "import/no-unresolved": "off",
     "node/no-missing-import": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "off",
+    "class-methods-use-this": "off",
+    "arrow-body-style": "off",
+    "no-restricted-syntax": "off",
+    "no-param-reassign": "off"
   }
 }
