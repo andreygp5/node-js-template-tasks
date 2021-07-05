@@ -10,14 +10,13 @@ const getAll = (): Promise<User[]> => usersRepo.getAll();
 
 /**
  * Get user by id from db
- * If user with this id doesn't exist - returns undefined
+ * If user with this id doesn't exist - throw new ErrorHandler(404, 'User not found');
  *
  * @param {number} id Desired user id
  *
- * @returns {Promise<import('./user.model.js').UserModel|undefined>} User or undefined
+ * @returns {Promise<import('./user.model.js').UserModel>} User
  */
-const getById = (id: string): Promise<User | undefined> =>
-  usersRepo.getById(id);
+const getById = (id: string): Promise<User> => usersRepo.getById(id);
 
 /**
  * Creates user in db with info from request
@@ -26,8 +25,15 @@ const getById = (id: string): Promise<User | undefined> =>
  *
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
-const createUser = (user: Omit<User, 'id'>): Promise<User> =>
-  usersRepo.createUser(user);
+const createUser = (user: Omit<User, 'id'>): Promise<User> => usersRepo.createUser(user);
+
+const checkPasswordsMatch = async (userId: string, passwordToCompare: string): Promise<boolean> => {
+  return usersRepo.checkPasswordsMatch(userId, passwordToCompare);
+};
+
+const getUserByLoginPassword = async (login: string, password: string): Promise<User | undefined> => {
+  return usersRepo.getUserByLoginPassword(login, password);
+};
 
 /**
  * Updates user in db with info from request
@@ -49,4 +55,12 @@ const updateUser = (id: string, updatedUser: User): Promise<User | undefined> =>
  */
 const deleteUser = (id: string): Promise<void> => usersRepo.deleteUser(id);
 
-export { getAll, getById, createUser, updateUser, deleteUser };
+export {
+  getAll,
+  getById,
+  createUser,
+  updateUser,
+  deleteUser,
+  checkPasswordsMatch,
+  getUserByLoginPassword
+};

@@ -6,21 +6,27 @@ import YAML from 'yamljs';
 import "reflect-metadata";
 
 import { SwaggerDefinition } from 'swagger-jsdoc';
+
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
+import authRouter from './auth/auth.router';
 
 import { logger, uncaughtLogger, unhandledLogger } from './middlewares/loggers';
 import { errorMiddleware } from './middlewares/error';
+import { validateToken } from './middlewares/validateToken';
 
 import { IErrorHandler } from './helpers/ErrorHandler';
 
 const app: express.Application = express();
+
 const swaggerDocument: SwaggerDefinition = YAML.load(
   path.join(__dirname, '../doc/api.yaml')
 );
 
 app.use(express.json());
+
+app.use(validateToken);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
@@ -34,6 +40,7 @@ app.use('/', (req, res, next) => {
 
 app.use(logger);
 
+app.use('/login', authRouter);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId', taskRouter);

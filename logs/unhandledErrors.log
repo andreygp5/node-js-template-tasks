@@ -19,3 +19,13 @@ src/entities/Task.ts(4,1): error TS6133: 'User' is declared but its value is nev
 
 Reason: Error: DB Connection failed - DataTypeNotSupportedError: Data type "Object" in "Task.user" is not supported by "postgres" database.
 Reason: Error: DB Connection failed - Error: connect ECONNREFUSED 192.168.48.2:5432
+Reason: Error: DB Connection failed - Error: connect ECONNREFUSED 192.168.96.2:5432
+Reason: Error
+Reason: Error
+Reason: Error
+Reason: Error
+Reason: Error
+Reason: JsonWebTokenError: jwt malformed
+Reason: Error
+Reason: Error
+Reason: Error: DB Connection failed - Error: connect ECONNREFUSED 192.168.160.2:5432

@@ -8,10 +8,13 @@ export class User extends BaseEntity {
 
     @Column({ default: "USER_FIRST_NAME" })
     name: string;
-  
+
     @Column({ default: "user-login" })
     login: string;
-  
+
+    @Column()
+    salt: string;
+
     @Column({ default: "USER_PASSWORD" })
     password: string;
 

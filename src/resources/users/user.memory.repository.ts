@@ -1,7 +1,9 @@
+import bcrypt from 'bcrypt';
+
 import { Task } from '../../entities/Task';
 import { User } from '../../entities/User';
 import { ErrorHandler } from '../../helpers/ErrorHandler';
-// import * as tasksService from '../tasks/task.service';
+import { genPassword } from '../../helpers/genPassword';
 
 /**
  * Get all users from db
@@ -12,14 +14,19 @@ const getAll = async (): Promise<User[]> => User.find();
 
 /**
  * Get user by id from db
- * If user with this id doesn't exist - returns undefined
+ * If user with this id doesn't exist - throws new ErrorHandler(404, 'User not found');
  *
  * @param {number} id Desired user id
  *
- * @returns {Promise<import('./user.model.js').UserModel|undefined>} User or undefined
+ * @returns {Promise<import('./user.model.js').UserModel>} User
  */
-const getById = async (id: string): Promise<User | undefined> => {
+const getById = async (id: string): Promise<User> => {
   const user = await User.findOne({ where: { id } });
+
+  if (!user) {
+    throw new ErrorHandler(404, 'User not found');
+  }
+
   return user;
 }
 
@@ -31,10 +38,38 @@ const getById = async (id: string): Promise<User | undefined> => {
  * @returns {Promise<import('./user.model.js').UserModel>} Created user instance
  */
 const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
-  const newUser = await User.create(user);
+  const { password } = user;
+  const { salt, hashedPasssword } = await genPassword(password);
+
+  const newUser = await User.create({ ...user, salt, password: hashedPasssword });
   await newUser.save();
 
-  return User.findOneOrFail(newUser);
+  const savedUser = await getById(newUser.id);
+
+  return savedUser;
+};
+
+const checkPasswordsMatch = async (userId: string, passwordToCompare: string): Promise<boolean> => {
+  const user = await getById(userId);
+  const { password } = user;
+
+  const isSame = await bcrypt.compare(passwordToCompare, password);
+
+  return isSame;
+};
+
+const getUserByLoginPassword = async (login: string, password: string): Promise<User | undefined> => {
+  const user = await User.findOne({ where: { login } });
+  if (!user) {
+    return undefined;
+  }
+
+  const isCorrectPassword = await checkPasswordsMatch(user.id, password);
+  if (!isCorrectPassword) {
+    return undefined;
+  }
+
+  return user;
 };
 
 /**
@@ -47,10 +82,18 @@ const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
  */
 const updateUser = async (id: string, updatedUser: User): Promise<User | undefined> => {
   const user = await getById(id);
-  if (!user) {
-    throw new ErrorHandler(404, "User not found");
+
+  const { password } = user;
+  const { password: newPassword } = updatedUser;
+
+  const isSame = await checkPasswordsMatch(id, newPassword);
+
+  if (!isSame) {
+    const { salt, hashedPasssword } = await genPassword(password);
+    await User.update(id, { ...updatedUser, password: hashedPasssword, salt });
+  } else {
+    await User.update(id, updatedUser);
   }
-  await User.update(id, updatedUser);
 
   return getById(id);
 };
@@ -64,11 +107,8 @@ const updateUser = async (id: string, updatedUser: User): Promise<User | undefin
 const deleteUser = async (id: string): Promise<void> => {
   const user = await getById(id);
 
-  if (!user) {
-    throw new ErrorHandler(404, 'User not found');
-  }
-
   const allTasks = await Task.find({ where: { userId: id } });
+
   for await (const task of allTasks) {
     task.userId = null;
     await task.save();
@@ -77,4 +117,12 @@ const deleteUser = async (id: string): Promise<void> => {
   await user.remove();
 };
 
-export { getAll, getById, createUser, updateUser, deleteUser };
+export {
+  getAll,
+  getById,
+  createUser,
+  updateUser,
+  deleteUser,
+  checkPasswordsMatch,
+  getUserByLoginPassword
+};
