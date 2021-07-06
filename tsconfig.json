@@ -4,7 +4,7 @@
     "module": "commonjs",
     "allowJs": false,
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "./src-nest",
     "downlevelIteration": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -25,6 +25,6 @@
     "node_modules/"
   ],
   "include": [
-    "./src/**/*.ts"
+    "./src-nest/**/*.ts"
   ]
 }
