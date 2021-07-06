@@ -1,0 +1,13 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5433,
+  "username": "postgres",
+  "password": "admin",
+  "database": "postgres",
+  "entities": ["build/**/*.entity{.ts,.js}"],
+  "migrations": ["build/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "build/migrations"
+  }
+}
