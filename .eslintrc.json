@@ -43,6 +43,7 @@
     "no-restricted-syntax": "off",
     "no-param-reassign": "off",
     "consistent-return": "off",
-    "no-async-promise-executor": "off"
+    "no-async-promise-executor": "off",
+    "no-useless-constructor": "off"
   }
 }
