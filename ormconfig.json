@@ -5,9 +5,10 @@
   "username": "postgres",
   "password": "admin",
   "database": "postgres",
-  "entities": ["build/**/*.entity{.ts,.js}"],
+  "entities": ["build/**/*.entity.js"],
   "migrations": ["build/migrations/*.ts"],
+  "migrationsRun": true,
   "cli": {
-    "migrationsDir": "build/migrations"
+    "migrationsDir": "src-nest/migrations"
   }
 }

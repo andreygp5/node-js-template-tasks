@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { configSchema } from './common/joi.config.schema';
+import { UsersModule } from './resources/users/users.module';
 
 @Module({
   imports:
@@ -14,6 +15,7 @@ import { configSchema } from './common/joi.config.schema';
       validationSchema: configSchema,
     }),
     TypeOrmModule.forRoot(),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -44,6 +44,8 @@
     "no-param-reassign": "off",
     "consistent-return": "off",
     "no-async-promise-executor": "off",
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "constructor-super": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

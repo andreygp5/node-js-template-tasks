@@ -19,7 +19,7 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
   },
   "exclude": [
     "node_modules/"
