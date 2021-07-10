@@ -7,7 +7,7 @@ import { ErrorHandler } from '../../helpers/ErrorHandler';
 
 const getTasks = async (
   req: express.Request,
-  res: express.Response
+  res: express.Response,
 ): Promise<void> => {
   const { boardId } = req.params;
 
@@ -22,7 +22,7 @@ const getTasks = async (
 const getTaskById = async (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): Promise<void> => {
   const { boardId, taskId } = req.params;
   if (!boardId || !taskId) {
@@ -43,7 +43,7 @@ const getTaskById = async (
 const createTask = async (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): Promise<void> => {
   const { boardId } = req.params;
   if (!boardId) {
@@ -66,7 +66,7 @@ const createTask = async (
 const updateTask = async (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): Promise<void> => {
   const { boardId, taskId } = req.params;
   if (!boardId || !taskId) {
@@ -79,7 +79,7 @@ const updateTask = async (
     const updatedTask = await tasksService.updateTaskOnBoard(
       boardId,
       taskId,
-      task
+      task,
     );
     if (!updatedTask) {
       throw new ErrorHandler();
@@ -93,7 +93,7 @@ const updateTask = async (
 const deleteTask = async (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): Promise<void> => {
   const { boardId, taskId } = req.params;
   if (!boardId || !taskId) {
@@ -108,4 +108,6 @@ const deleteTask = async (
   }
 };
 
-export { getTasks, getTaskById, createTask, updateTask, deleteTask };
+export {
+  getTasks, getTaskById, createTask, updateTask, deleteTask,
+};

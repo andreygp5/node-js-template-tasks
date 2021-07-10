@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { configSchema } from './common/joi.config.schema';
 import { UsersModule } from './resources/users/users.module';
 import { BoardsModule } from './resources/boards/boards.module';
+import { TasksModule } from './resources/tasks/tasks.module';
 
 @Module({
   imports:
@@ -18,6 +19,7 @@ import { BoardsModule } from './resources/boards/boards.module';
     TypeOrmModule.forRoot(),
     UsersModule,
     BoardsModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
