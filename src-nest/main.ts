@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
@@ -7,8 +8,18 @@ import YAML from 'yamljs';
 
 import { AppModule } from './app.module';
 
+const isFastify = (): boolean => {
+  const { env } = process;
+  const { USE_FASTIFY } = env;
+
+  return !!USE_FASTIFY;
+};
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = isFastify()
+    ? await NestFactory.create<NestFastifyApplication>(AppModule)
+    : await NestFactory.create(AppModule);
+
   const configService = app.get(ConfigService);
 
   const document = YAML.load(
