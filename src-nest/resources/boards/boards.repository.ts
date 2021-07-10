@@ -1,9 +1,10 @@
 import { NotFoundException } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { BaseEntity, EntityRepository, Repository } from 'typeorm';
 
 import { CreateColumnDto } from '../columns/dto/create-column.dto';
 import { UpdateColumnDto } from '../columns/dto/update-column.dto';
 import { BoardColumn } from '../columns/entities/column.entity';
+import { Task } from '../tasks/entities/task.entity';
 
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
@@ -89,16 +90,19 @@ export class BoardRepository extends Repository<Board> {
     return board;
   }
 
-  private async deleteColumns(columns: BoardColumn[]): Promise<void> {
-    for await (const column of columns) {
-      await column.remove();
+  private async deleteRelated<T extends BaseEntity>(entitiesList: Array<T>): Promise<void> {
+    for await (const item of entitiesList) {
+      await item.remove();
     }
   }
 
   async deleteBoard(id: string): Promise<void> {
     const board = await this.getBoardById(id);
 
-    await this.deleteColumns(board.columns);
+    await this.deleteRelated(board.columns);
+
+    const boardTasks = await Task.find({ where: { boardId: id } });
+    await this.deleteRelated(boardTasks);
 
     await board.remove();
   }

@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { genPassword } from '../../helpers/genPassword';
+import { Task } from '../tasks/entities/task.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RespUserDto } from './dto/resp-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -71,8 +72,18 @@ export class UserRepository extends Repository<User> {
     return this.getUserById(id);
   }
 
+  async nullUsersIdTasks(tasks: Task[]): Promise<void> {
+    for await (const task of tasks) {
+      task.userId = null;
+      await task.save();
+    }
+  }
+
   async deleteUser(id: string): Promise<void> {
     const user = await this.findOneOrFail({ where: { id } });
+
+    const userTasks = await Task.find({ where: { userId: id } });
+    await this.nullUsersIdTasks(userTasks);
 
     await user.remove();
   }
