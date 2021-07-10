@@ -3,7 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 
-import "reflect-metadata";
+import 'reflect-metadata';
 
 import { SwaggerDefinition } from 'swagger-jsdoc';
 
@@ -21,7 +21,7 @@ import { IErrorHandler } from './helpers/ErrorHandler';
 const app: express.Application = express();
 
 const swaggerDocument: SwaggerDefinition = YAML.load(
-  path.join(__dirname, '../doc/api.yaml')
+  path.join(__dirname, '../doc/api.yaml'),
 );
 
 app.use(express.json());
@@ -50,8 +50,8 @@ app.use(
     err: IErrorHandler,
     req: express.Request,
     res: express.Response,
-    _next: express.NextFunction
-  ) => errorMiddleware(err, req, res)
+    _next: express.NextFunction,
+  ) => errorMiddleware(err, req, res),
 );
 
 process.on('uncaughtException', (error: Error) => uncaughtLogger(error));

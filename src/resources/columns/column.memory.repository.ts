@@ -18,7 +18,7 @@ const createColumn = async (column: Omit<BoardColumn, 'id'>, _board: Board): Pro
   // console.log(JSON.stringify(newColumn) + 'createColumn');
   await newColumn.save();
   return newColumn;
-}
+};
 
 /**
  * Updates column
@@ -32,7 +32,7 @@ const createColumn = async (column: Omit<BoardColumn, 'id'>, _board: Board): Pro
  */
 const updateFields = async (
   newFields: Omit<BoardColumn, 'id'>,
-  column: BoardColumn
+  column: BoardColumn,
 ): Promise<BoardColumn> => {
   const { title, order } = newFields;
 
@@ -87,7 +87,7 @@ const updateColumnsInBoard = async (updatedColumns: BoardColumn[], board: Board)
       return columnsCopy;
     }, Promise.resolve(<Array<BoardColumn>>[]));
   } catch (error) {
-    throw new ErrorHandler(400, error)
+    throw new ErrorHandler(400, error);
   }
 };
 
@@ -95,7 +95,7 @@ const deleteColumns = async (columns: BoardColumn[]): Promise<void> => {
   for await (const column of columns) {
     await column.remove();
   }
-}
+};
 
 export {
   createColumn,

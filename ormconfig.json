@@ -6,7 +6,7 @@
   "password": "admin",
   "database": "postgres",
   "entities": ["build/**/*.entity.js"],
-  "migrations": ["build/migrations/*.ts"],
+  "migrations": ["build/migrations/*.js"],
   "migrationsRun": true,
   "cli": {
     "migrationsDir": "src-nest/migrations"
