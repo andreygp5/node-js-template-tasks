@@ -11,6 +11,9 @@ export class Board extends BaseEntity {
     @Column({ default: 'TITLE' })
     title: string;
 
+    @Column({ default: 'TITLE' })
+    titleRE: string;
+
     @OneToMany(() => BoardColumn, (boardColumn) => boardColumn.board, {
       onDelete: 'CASCADE',
       cascade: true,
