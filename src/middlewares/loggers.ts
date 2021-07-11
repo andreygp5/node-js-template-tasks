@@ -12,24 +12,26 @@ const logToFile = (fileName: string, logStr: string, isSync = false): void => {
     fs.writeFileSync(
       filePath,
       logStr,
-      { flag: 'a' }
+      { flag: 'a' },
     );
   } else {
     fs.writeFile(
       filePath,
       logStr,
       { flag: 'a' },
-      (err) => err
+      (err) => err,
     );
   }
-}
+};
 
 const logger = (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ): void => {
-  const { method, url, body, query } = req;
+  const {
+    method, url, body, query,
+  } = req;
 
   const start = Date.now();
 
@@ -71,7 +73,6 @@ const uncaughtLogger = (err: Error): void => {
   process.exit(1);
 };
 
-
 const unhandledLogger = (reason: string): void => {
   const logStr = `Reason: ${reason}\n`;
 
@@ -81,4 +82,6 @@ const unhandledLogger = (reason: string): void => {
   process.exit(1);
 };
 
-export { logger, errorLogger, uncaughtLogger, unhandledLogger };
+export {
+  logger, errorLogger, uncaughtLogger, unhandledLogger,
+};
