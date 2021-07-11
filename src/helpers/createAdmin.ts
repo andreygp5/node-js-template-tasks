@@ -5,11 +5,15 @@ import { UsersService } from '../resources/users/users.service';
 export const createAdmin = async (app: INestApplication): Promise<void> => {
   const userService = app.get(UsersService);
 
-  const createUserDto: CreateUserDto = {
-    name: 'ADMIN',
-    login: 'admin',
-    password: 'admin',
-  };
+  try {
+    await userService.findByLoginPassword('admin', 'admin');
+  } catch (error) {
+    const createUserDto: CreateUserDto = {
+      name: 'ADMIN',
+      login: 'admin',
+      password: 'admin',
+    };
 
-  await userService.create(createUserDto);
+    await userService.create(createUserDto);
+  }
 };
