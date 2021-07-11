@@ -1,12 +1,12 @@
 {
   "type": "postgres",
-  "host": "localhost",
-  "port": 5433,
+  "host": "postgres",
+  "port": 5432,
   "username": "postgres",
-  "password": "admin",
-  "database": "postgres",
-  "entities": ["build/**/*.entity.js"],
-  "migrations": ["build/migrations/*.js"],
+  "password": "secret",
+  "database": "trello",
+  "entities": ["build/**/*.entity{.ts,.js}"],
+  "migrations": ["build/migrations/*{.ts,.js}"],
   "migrationsRun": true,
   "cli": {
     "migrationsDir": "src/migrations"

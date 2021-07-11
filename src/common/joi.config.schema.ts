@@ -6,6 +6,6 @@ const configSchema = Joi.object({
     .default('development'),
   PORT: Joi.number().default(4000),
   JWT_SECRET_KEY: Joi.string(),
-})
+});
 
 export { configSchema };
