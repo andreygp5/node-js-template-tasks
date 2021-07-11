@@ -36,4 +36,4 @@ process.on('uncaughtException', (err: Error) => {
   catchUncaught(err);
 });
 
-throw new Error('OOPS');
+// throw new Error('OOPS');

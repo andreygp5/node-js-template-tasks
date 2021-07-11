@@ -22,7 +22,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       logObject.status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    const logObjectStringified = JSON.stringify(logObject);
+    const logObjectStringified = `${JSON.stringify(logObject)}\n`;
 
     process.stdout.write(logObjectStringified);
     logToFile('errors', logObjectStringified);

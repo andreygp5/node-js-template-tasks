@@ -1,2 +1,0 @@
-[POST] /login : 201 : Body={"login":"admin","password":"admin"} : Query={} [148ms]
-[GET] /users : 200 : Body={} : Query={} [3ms]
