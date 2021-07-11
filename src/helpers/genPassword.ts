@@ -10,6 +10,6 @@ const genPassword = async (plainPassword: string): Promise<IPasswordPair> => {
   const hashedPasssword = await bcrypt.hash(plainPassword, salt);
 
   return { hashedPasssword, salt };
-}
+};
 
 export { genPassword, IPasswordPair };

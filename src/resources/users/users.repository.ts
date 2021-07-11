@@ -67,7 +67,11 @@ export class UserRepository extends Repository<User> {
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<RespUserDto> {
-    const user = await this.findOneOrFail({ where: { id } });
+    const user = await this.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
 
     const { password } = user;
     const { password: newPassword } = updateUserDto;
@@ -96,7 +100,11 @@ export class UserRepository extends Repository<User> {
   }
 
   async deleteUser(id: string): Promise<void> {
-    const user = await this.findOneOrFail({ where: { id } });
+    const user = await this.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
 
     const userTasks = await Task.find({ where: { userId: id } });
     await this.nullUsersIdTasks(userTasks);
