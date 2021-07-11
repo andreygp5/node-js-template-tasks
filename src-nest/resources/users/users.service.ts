@@ -27,4 +27,12 @@ export class UsersService {
   remove(id: string) {
     return this.usersRepository.deleteUser(id);
   }
+
+  findByLoginPassword(login: string, password: string) {
+    return this.usersRepository.getUserByLoginPassword(login, password);
+  }
+
+  checkPasswordsMatch(userId: string, passwordToCompare: string) {
+    return this.usersRepository.checkPasswordsMatch(userId, passwordToCompare);
+  }
 }

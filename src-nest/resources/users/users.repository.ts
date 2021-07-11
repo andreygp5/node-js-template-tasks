@@ -1,3 +1,4 @@
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import bcrypt from 'bcrypt';
 import { EntityRepository, Repository } from 'typeorm';
 
@@ -16,7 +17,12 @@ export class UserRepository extends Repository<User> {
   }
 
   async getUserById(id: string): Promise<RespUserDto> {
-    const user = await this.findOneOrFail({ where: { id } });
+    const user = await this.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
     return this.toResponse(user);
   }
 
@@ -31,7 +37,12 @@ export class UserRepository extends Repository<User> {
   }
 
   async checkPasswordsMatch(userId: string, passwordToCompare: string): Promise<boolean> {
-    const user = await this.findOneOrFail({ where: { id: userId } });
+    const user = await this.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
     const { password } = user;
 
     const isSame = await bcrypt.compare(passwordToCompare, password);
@@ -39,12 +50,17 @@ export class UserRepository extends Repository<User> {
     return isSame;
   }
 
-  async getUserByLoginPassword(login: string, password: string): Promise<User | undefined> {
-    const user = await User.findOneOrFail({ where: { login } });
+  async getUserByLoginPassword(login: string, password: string): Promise<User> {
+    const user = await User.findOne({ where: { login } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
 
     const isCorrectPassword = await this.checkPasswordsMatch(user.id, password);
+
     if (!isCorrectPassword) {
-      return undefined;
+      throw new ForbiddenException();
     }
 
     return user;

@@ -9,6 +9,7 @@ import { configSchema } from './common/joi.config.schema';
 import { UsersModule } from './resources/users/users.module';
 import { BoardsModule } from './resources/boards/boards.module';
 import { TasksModule } from './resources/tasks/tasks.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports:
@@ -20,6 +21,7 @@ import { TasksModule } from './resources/tasks/tasks.module';
     UsersModule,
     BoardsModule,
     TasksModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
