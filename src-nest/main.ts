@@ -8,6 +8,7 @@ import YAML from 'yamljs';
 
 import { AppModule } from './app.module';
 import { createAdmin } from './helpers/createAdmin';
+import { catchUncaught } from './helpers/catchUncaught';
 
 const isFastify = (): boolean => {
   const { env } = process;
@@ -36,3 +37,9 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+process.on('uncaughtException', (err: Error) => {
+  catchUncaught(err);
+});
+
+throw new Error('OOPS');

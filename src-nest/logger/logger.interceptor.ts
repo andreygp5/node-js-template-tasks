@@ -2,23 +2,12 @@ import {
   Injectable, NestInterceptor, ExecutionContext, CallHandler,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import path from 'path';
-import fs from 'fs';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { logToFile } from '../helpers/logToFile';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  logToFile(fileName: string, logStr: string) {
-    const filePath = path.resolve(`logs/${fileName}.log`);
-    fs.writeFile(
-      filePath,
-      logStr,
-      { flag: 'a' },
-      (err) => err,
-    );
-  }
-
   logToConsole(logStr: string) {
     process.stdout.write(logStr);
   }
@@ -41,7 +30,7 @@ export class LoggingInterceptor implements NestInterceptor {
           const time = Date.now() - now;
 
           const logStr = `[${method}] ${url} : ${statusCode} : Body=${JSON.stringify(body)} : Query=${JSON.stringify(query)} [${time}ms]\n`;
-          this.logToFile('httpRequests', logStr);
+          logToFile('httpRequests', logStr);
           this.logToConsole(logStr);
         }),
       );
