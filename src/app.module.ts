@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
@@ -15,7 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './guards/auth.guard';
 import { LoggingInterceptor } from './logger/logger.interceptor';
 import { HttpExceptionFilter } from './filters/exception.filter';
-// import ormConfig from './common/orm.config';
+import { getOrmConfig } from './common/orm.config';
 
 @Module({
   imports:
@@ -24,14 +24,11 @@ import { HttpExceptionFilter } from './filters/exception.filter';
       validationSchema: configSchema,
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: async () => {
-        return Object.assign(await getConnectionOptions(), {
-          autoLoadEntities: true,
-          migrationsRun: true,
-          entities: ['build/**/*.entity{.ts,.js}'],
-          migrations: ['build/migrations/*{.ts,.js}'],
-        });
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return Object.assign(await getConnectionOptions(), getOrmConfig(configService));
       },
+      inject: [ConfigService],
     }),
     UsersModule,
     BoardsModule,
