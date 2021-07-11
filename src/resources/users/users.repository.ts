@@ -2,12 +2,12 @@ import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import bcrypt from 'bcrypt';
 import { EntityRepository, Repository } from 'typeorm';
 
-import { genPassword } from '../../helpers/genPassword';
 import { Task } from '../tasks/entities/task.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RespUserDto } from './dto/resp-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { IPasswordPair } from './interfaces/password.pair';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -26,9 +26,16 @@ export class UserRepository extends Repository<User> {
     return this.toResponse(user);
   }
 
+  async genPassword(plainPassword: string): Promise<IPasswordPair> {
+    const salt = await bcrypt.genSalt();
+    const hashedPasssword = await bcrypt.hash(plainPassword, salt);
+
+    return { hashedPasssword, salt };
+  }
+
   async createUser(createUserDto: CreateUserDto): Promise<RespUserDto> {
     const { password } = createUserDto;
-    const { salt, hashedPasssword } = await genPassword(password);
+    const { salt, hashedPasssword } = await this.genPassword(password);
 
     const newUSer = await this.create({ ...createUserDto, salt, password: hashedPasssword });
 
@@ -83,7 +90,7 @@ export class UserRepository extends Repository<User> {
     }
 
     if (!isSame) {
-      const { salt, hashedPasssword } = await genPassword(password);
+      const { salt, hashedPasssword } = await this.genPassword(password);
       await User.update(id, { ...updateUserDto, password: hashedPasssword, salt });
     } else {
       await User.update(id, updateUserDto);
