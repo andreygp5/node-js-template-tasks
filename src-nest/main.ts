@@ -9,13 +9,7 @@ import YAML from 'yamljs';
 import { AppModule } from './app.module';
 import { createAdmin } from './helpers/createAdmin';
 import { catchUncaught } from './helpers/catchUncaught';
-
-const isFastify = (): boolean => {
-  const { env } = process;
-  const { USE_FASTIFY } = env;
-
-  return !!USE_FASTIFY;
-};
+import { isFastify } from './helpers/determinePlatform';
 
 async function bootstrap() {
   const app = isFastify()
