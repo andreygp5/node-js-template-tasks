@@ -1,8 +1,15 @@
-import { User } from '../entities/User';
-import * as usersService from '../resources/users/user.service';
+import { INestApplication } from '@nestjs/common';
+import { CreateUserDto } from '../resources/users/dto/create-user.dto';
+import { UsersService } from '../resources/users/users.service';
 
-const createAdmin = async (): Promise<void> => {
-  await usersService.createUser({ login: 'admin', password: 'admin' } as User);
+export const createAdmin = async (app: INestApplication): Promise<void> => {
+  const userService = app.get(UsersService);
+
+  const createUserDto: CreateUserDto = {
+    name: 'ADMIN',
+    login: 'admin',
+    password: 'admin',
+  };
+
+  await userService.create(createUserDto);
 };
-
-export { createAdmin };

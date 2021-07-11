@@ -1,6 +1,6 @@
 {
-  "watch": "src-nest",
+  "watch": "src",
   "ext": "ts,json",
   "ignore": "node_modules",
-  "exec": "ts-node src-nest/main.ts"
+  "exec": "ts-node src/main.ts"
 }

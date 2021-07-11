@@ -9,6 +9,6 @@
   "migrations": ["build/migrations/*.js"],
   "migrationsRun": true,
   "cli": {
-    "migrationsDir": "src-nest/migrations"
+    "migrationsDir": "src/migrations"
   }
 }

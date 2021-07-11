@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src-nest"],
+    "include": ["src"],
     "includePattern": ".(t|j)s$",
     "excludePattern": "(node_modules/|docs)"
   },
