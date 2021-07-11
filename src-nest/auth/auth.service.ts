@@ -1,22 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { UsersService } from '../resources/users/users.service';
 import { IPayLoad } from './dto/jwt.payload';
+import { ILoginResponse } from './dto/login.response';
 import { UserInfo } from './dto/user.info';
 
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService, private configService: ConfigService) {}
 
-  async login(userInfo: UserInfo): Promise<string> {
+  async login(userInfo: UserInfo): Promise<ILoginResponse> {
     const { login, password } = userInfo;
 
     const user = await this.usersService.findByLoginPassword(login, password);
+    const token = await this.getJWT({ userId: user.id, password });
 
-    return this.getJWT({ userId: user.id, password });
+    return { token };
   }
 
   getJWTSecretKey(): string {
@@ -59,7 +61,7 @@ export class AuthService {
     const token = req.header('Authorization')?.split('Bearer ')[1];
 
     if (!token) {
-      return false;
+      throw new UnauthorizedException();
     }
 
     return this.isTokenCorrect(token);

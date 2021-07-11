@@ -1,13 +1,11 @@
 import {
-  Controller, Get, Post, Body, Param, Delete, Put, UseGuards,
+  Controller, Get, Post, Body, Param, Delete, Put,
 } from '@nestjs/common';
-import { AuthGuard } from '../../auth/auth.guard';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Controller('boards')
-@UseGuards(AuthGuard)
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 

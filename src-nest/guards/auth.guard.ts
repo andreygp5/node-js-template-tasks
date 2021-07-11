@@ -3,7 +3,9 @@ import {
 } from '@nestjs/common';
 
 import { Request } from 'express';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
+
+const nonSecureRoutes = ['/', '/login'];
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -11,8 +13,13 @@ export class AuthGuard implements CanActivate {
 
   canActivate(
     context: ExecutionContext,
-  ): Promise<boolean> {
+  ): Promise<boolean> | boolean {
     const request = context.switchToHttp().getRequest<Request>();
+
+    if (nonSecureRoutes.includes(request.path) || request.path.startsWith('/doc')) {
+      return true;
+    }
+
     return this.authService.validateRequest(request);
   }
 }

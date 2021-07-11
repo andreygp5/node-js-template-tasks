@@ -7,6 +7,7 @@ import path from 'path';
 import YAML from 'yamljs';
 
 import { AppModule } from './app.module';
+import { createAdmin } from './helpers/createAdmin';
 
 const isFastify = (): boolean => {
   const { env } = process;
@@ -21,6 +22,8 @@ async function bootstrap() {
     : await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
+
+  await createAdmin(app);
 
   const document = YAML.load(
     path.join(__dirname, '../doc/api.yaml'),
