@@ -1,11 +1,31 @@
 # RS School REST service
 
+## Сomparison tables using Express and Fastify
+
+|                    	| Express          	|                	|
+|--------------------	|------------------	|----------------	|
+| Requests           	| total            	| 1815           	|
+| Response time (ms) 	| min, max, median 	| 73, 3474, 776  	|
+| Codes              	| 200, 201, 404    	| 1090, 363, 362 	|
+| Response/sec       	|                  	| 33.33          	|
+
+|                    	| Fastify          	|                	|
+|--------------------	|------------------	|----------------	|
+| Requests           	| total            	| 1790           	|
+| Response time (ms) 	| min, max, median 	| 81, 3001, 778  	|
+| Codes              	| 200, 201, 404    	| 1075, 358, 357 	|
+| Response/sec       	|                  	| 32.87          	|
+
+
+1. Clone repo
+2. `docker-compose up` - starts app
+3. `docker-compose down` - stop app
+
 ## How to run with docker
 
 1. Clone repo
-2. Checkout branch `docker-basics`
-3. `docker-compose up` - starts app
-4. `docker-compose down` - stop app
+2. `docker-compose up` - starts app
+3. `docker-compose down` - stop app
 
 ## Prerequisites
 
