@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { UsersService } from '../resources/users/users.service';
@@ -52,5 +53,15 @@ export class AuthService {
         res(false);
       }
     });
+  }
+
+  async validateRequest(req: Request): Promise<boolean> {
+    const token = req.header('Authorization')?.split('Bearer ')[1];
+
+    if (!token) {
+      return false;
+    }
+
+    return this.isTokenCorrect(token);
   }
 }
