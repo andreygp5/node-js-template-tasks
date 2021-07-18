@@ -1,0 +1,28 @@
+config:
+  target: 'http://localhost:4000'
+  defaults:
+    headers:
+      Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YWYwYjgxOS1iMzAzLTQ2ZDUtOTI0NS00Yjk5NWQyZGM4MGMiLCJwYXNzd29yZCI6ImFkbWluIiwiaWF0IjoxNjI2MDMyNTY3fQ.HyYwgCRXTVlXvjNGWbcMiOoqBlxfL0RxlqUr-v_AnDc"
+  phases:
+    - duration: 50
+      arrivalRate: 10
+      maxVusers: 50
+scenarios:
+  - flow:
+    - post:
+        url: "/users"
+        json:
+          name: "NAME"
+          login: "LOGIN"
+          password: "PASSWORD"
+    - get:
+        url: "/users"
+    - get:
+        url: "/users/c4fc8daf-cfd0-4ab2-acce-d4c77f63afe3"
+    - put:
+        url: "/users/c4fc8daf-cfd0-4ab2-acce-d4c77f63afe3"
+        json:
+          name: "NAME_UPDATED"
+          login: "LOGIN_UPDATED"
+    - delete:
+        url: "/users/534792f8-7441-4e6d-b9f1-7c985d7d5d46"

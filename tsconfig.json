@@ -4,7 +4,7 @@
     "module": "commonjs",
     "allowJs": false,
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "src",
     "downlevelIteration": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -19,12 +19,12 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
   },
   "exclude": [
     "node_modules/"
   ],
   "include": [
-    "./src/**/*.ts"
+    "src/**/*.ts"
   ]
 }

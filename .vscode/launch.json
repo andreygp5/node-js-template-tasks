@@ -1,14 +1,14 @@
 {
+  "version": "0.2.0",
   "configurations": [
-  {
-    "name": "Docker: Attach to Node",
-    "type": "node",
-    "request": "attach",
-    "port": 4000,
-    "address": "localhost",
-    "localRoot": "${workspaceFolder}",
-    "remoteRoot": "/app",
-    "protocol": "inspector"
-  }
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach NestJS WS",
+      "port": 9229,
+      "restart": true,
+      "stopOnEntry": false,
+      "protocol": "inspector"
+    }
   ]
 }
