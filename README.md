@@ -16,11 +16,6 @@
 | Codes              	| 200, 201, 404    	| 1075, 358, 357 	|
 | Response/sec       	|                  	| 32.87          	|
 
-
-1. Clone repo
-2. `docker-compose up` - starts app
-3. `docker-compose down` - stop app
-
 ## How to run with docker
 
 1. Clone repo
